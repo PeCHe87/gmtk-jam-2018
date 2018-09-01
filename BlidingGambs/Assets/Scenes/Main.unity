@@ -652,7 +652,7 @@ MonoBehaviour:
   _btnPause: {fileID: 422820665}
   _showLow: 1
   _timeToHideBeat: 0.3
-  bpm: 240
+  bpm: 212
   gain: 0.5
   signatureHi: 4
   signatureLo: 4
@@ -680,7 +680,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2ac1d3dd141afd243bc9b08e4fca3258, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -763,6 +763,7 @@ MonoBehaviour:
   _combo: {fileID: 11400000, guid: 3704f11f3ea02f64a901650cf7d5f101, type: 2}
   comboStarted: 0
   _canDebug: 0
+  _delayBeat: 250
 --- !u!114 &1194820224
 MonoBehaviour:
   m_ObjectHideFlags: 0

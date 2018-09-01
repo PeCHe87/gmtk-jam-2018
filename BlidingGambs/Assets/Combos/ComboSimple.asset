@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: ComboSimple
   m_EditorClassIdentifier: 
   comboName: Simple
-  beats: HlhLh
+  beats: HlhlH
   keyAction: Skip Punch!

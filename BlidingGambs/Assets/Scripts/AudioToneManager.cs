@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AudioToneManager : MonoBehaviour
 {
-    public System.Action<int> OnBeat;
+    public System.Action<char> OnBeat;
 
     [Tooltip("Time between beats (BPM)")]
     [SerializeField] private float _timeBetweenBeats = 60;
@@ -96,8 +96,8 @@ public class AudioToneManager : MonoBehaviour
 
     private void Update()
     {
-        _txtHigh.text = (accent == 1) ? "HI" : string.Empty;
-        _txtLow.text = (accent == 3) ? "LOW" : string.Empty;
+        _txtHigh.text = (accent % 2 == 1) ? "HI" : string.Empty;
+        _txtLow.text = (accent % 2 == 0) ? "LOW" : string.Empty;
 
         currentTime -= Time.deltaTime;
         if (currentTime <= 0)
@@ -119,7 +119,7 @@ public class AudioToneManager : MonoBehaviour
         _txtLowInput.color = (tick == 3) ? Color.green : ((tick == 4) ? Color.red : Color.black);
     }
 
-    private IEnumerator CheckTones()
+    /*private IEnumerator CheckTones()
     {
         while (_gameStarted)
         {
@@ -127,7 +127,7 @@ public class AudioToneManager : MonoBehaviour
 
             yield return new WaitForSeconds(60 / _timeBetweenBeats);
         }
-    }
+    }*/
 
     private void ShowTone()
     {
@@ -199,7 +199,7 @@ public class AudioToneManager : MonoBehaviour
                     showTone = true;
 
                 //Debug.Log("Tick: " + accent + "/" + signatureHi);
-                OnBeat(accent);
+                OnBeat((accent % 2 == 0)?'L':'H');
 
             }
             phase += amp * 0.3F;

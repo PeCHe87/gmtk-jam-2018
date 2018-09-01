@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private int currentComboStep = 0;
     private AudioToneManager beatManager;
     private bool skipBeat = false;
-    private int currentBeat = 0;
+    private char currentBeat = ' ';
     private StringBuilder currentCombo;
     private bool delayActive = false;
 
@@ -60,22 +60,25 @@ public class PlayerController : MonoBehaviour
 
     private bool CheckComboStep(bool silence = false)
     {
-        //Current beat 
-        string beat = (currentBeat == 1) ? "H" : "L";
-
         //Skip the cheking if it is a beat to skip
         if (currentCombo.Length > 0)
         {
             string last = (currentCombo[currentCombo.Length - 1]).ToString().ToUpper();
-            if (beat.Equals(last))
+
+            string current = currentBeat.ToString().ToUpper();
+
+            if (current.Equals(last))
                 return true;
         }
 
         if (silence)
-            beat = beat.ToLower();
+        {
+            string lower = currentBeat.ToString().ToLower();
+            currentBeat = lower[0];
+        }
 
         //Append it to combo builder
-        currentCombo.Append(beat);
+        currentCombo.Append(currentBeat);
 
         Debug.Log("Check current combo: " + currentCombo.ToString());
 
@@ -83,7 +86,7 @@ public class PlayerController : MonoBehaviour
         int match = string.Compare(_combo.beats, 0, currentCombo.ToString(), 0, currentCombo.Length);
 
         if (match == 0)
-            Debug.Log("<b><color=green>GOOD!!</color></b> - " + ((silence)?"Silence":"Action") + ", beat: " + FormatBeat(currentBeat) + ", current combo: " + currentCombo.ToString());
+            Debug.Log("<b><color=green>GOOD!!</color></b> - " + ((silence)?"Silence":"Action") + ", beat: " + currentBeat + ", current combo: " + currentCombo.ToString());
 
         return match == 0;
     }
@@ -102,13 +105,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void NewBeat(int beat)
+    private void NewBeat(char beat)
     {
-        if (beat == 1 || beat == 3)
-        {
-            delayActive = true;
-            currentBeat = beat;
-        }
+        delayActive = true;
+        currentBeat = beat;
     }
 
     private IEnumerator CheckNewBeat()
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(_delayBeat/1000);
 
         if (_canDebug && comboStarted)
-            Debug.Log("beat: " + FormatBeat(currentBeat));
+            Debug.Log("beat: " + currentBeat);
 
         if (skipBeat)
         {
@@ -142,14 +142,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private string FormatBeat(int beat)
-    {
-        return (beat == 1)?"H":"L";
-    }
-
     private void ResetCurrentCombo(bool silence = false)
     {
-        Debug.Log("<b><color=red>BAD!!</color></b> current beat: " + FormatBeat(currentBeat) + "   --   " + ((silence)?"silence" : "action"));
+        Debug.Log("<b><color=red>BAD!!</color></b> current beat: " + currentBeat + "   --   " + ((silence)?"silence" : "action"));
 
         //Reset action started
         comboStarted = false;
