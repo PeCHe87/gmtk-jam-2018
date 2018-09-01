@@ -7,4 +7,5 @@ public class EntityController : MonoBehaviour
     public Action OnBadComboStep;
     public Action OnLoose;
     public Action OnWin;
+    public Action<ActionType.Type> OnComboComplete;
 }

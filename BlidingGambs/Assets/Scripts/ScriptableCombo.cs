@@ -7,5 +7,5 @@ public class ScriptableCombo : ScriptableObject
     [Tooltip("Beats marked 'High' or 'Low' if they need input or 'high'/'low' in another case (no input)")]
     public string beats;
     [Tooltip("The key of the action to perform when combo is successfully completed")]
-    public string keyAction;        //TODO: enum key action
+    public ActionType.Type keyAction;
 }

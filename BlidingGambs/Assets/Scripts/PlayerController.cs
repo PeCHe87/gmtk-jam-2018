@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class PlayerController : EntityController
     [SerializeField] private bool comboStarted = false;     //TODO: combo is started when combo builder has something
     [SerializeField] private bool _canDebug = false;
     [SerializeField] private BeatManager _beatManager;
+    [SerializeField] private float _timeDelayBeforeComboComplete = 0.5f;
 
     private int currentComboStep = 0;
     private bool skipBeat = false;
@@ -17,6 +19,19 @@ public class PlayerController : EntityController
     private StringBuilder currentCombo;
     private bool delayActive = false;
     private float delayBeat;
+
+    public void Damage(int damage)  //TODO: add param to indicate the action performed by enemy
+    {
+        //Update HealthController
+
+        //Show damage graphic animation feedback
+
+        //SFX of cancel combo if player is building the combo
+
+        //SFX of hit damage of type of attack
+
+        //Cancel combo in progress if player was building a combo
+    }
 
     private void Awake()
     {
@@ -89,11 +104,16 @@ public class PlayerController : EntityController
             int match = string.Compare(combo.beats, 0, currentCombo.ToString(), 0, currentCombo.Length);
 
             if (match == 0)
+            {
                 Debug.Log("<b><color=green>GOOD!!</color></b> - " + ((silence) ? "Silence" : "Action") + ", beat: " + currentBeat + ", current combo: " + currentCombo.ToString());
+                OnGoodComboStep(currentCombo.Length);
+            }
 
             if (match == 0)
                 return true;
         }
+
+        OnBadComboStep();
 
         return false;
     }
@@ -109,10 +129,8 @@ public class PlayerController : EntityController
             {
                 Debug.Log("<b><i><color=magenta>COMBOOOOOOOO!!!!</color></i></b> Action: " + combo.keyAction);
 
-                //TODO: feedback for combo completed
-
-                //Reset current step
-                SuccessfullCombo();
+                //Reset current step and feedback fo combo completed
+                SuccessfullCombo(combo.keyAction);
             }
         }
     }
@@ -164,12 +182,21 @@ public class PlayerController : EntityController
         currentCombo.Remove(0, currentCombo.Length);
     }
 
-    private void SuccessfullCombo()
+    private void SuccessfullCombo(ActionType.Type actionCombo)
     {
         //Reset action started
         comboStarted = false;
 
         currentCombo.Remove(0, currentCombo.Length);
+
+        StartCoroutine(ShowComboCompleteFeedback(actionCombo));
+    }
+
+    private IEnumerator ShowComboCompleteFeedback(ActionType.Type actionCombo)
+    {
+        yield return new WaitForSeconds(_timeDelayBeforeComboComplete);
+
+        OnComboComplete(actionCombo);
     }
 
     private void OnDestroy()

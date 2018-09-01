@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4654646112593268}
   - component: {fileID: 212382071964069736}
   m_Layer: 0
-  m_Name: sprBad1
+  m_Name: sprBad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4569963682308752}
   - component: {fileID: 212501211808463258}
   m_Layer: 0
-  m_Name: sprGood1
+  m_Name: sprGoodR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 4528791455909146}
   - component: {fileID: 212490877364695794}
   m_Layer: 0
-  m_Name: sprGood2
+  m_Name: sprGoodL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 4384362882973874}
   - component: {fileID: 114011977459229290}
   - component: {fileID: 114187052596659256}
+  - component: {fileID: 114422769714668040}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -215,10 +216,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _combos:
   - {fileID: 11400000, guid: 3704f11f3ea02f64a901650cf7d5f101, type: 2}
+  - {fileID: 11400000, guid: 75f5aa22790b4684ca470f77fe57db54, type: 2}
   comboStarted: 0
   _canDebug: 0
-  _delayBeat: 250
   _beatManager: {fileID: 0}
+--- !u!114 &114422769714668040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1998692082679382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1d77bd1f7718646ac275aba3311833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToHideFeedback: 0.5
+  comboColor: {r: 1, g: 0, b: 1, a: 1}
+  winnerColor: {r: 0, g: 1, b: 0, a: 1}
+  looserColor: {r: 1, g: 0, b: 0, a: 1}
+  _sprBody: {fileID: 212721101390806032}
+  _sprBad: {fileID: 1014648211811022}
+  _sprGoodL: {fileID: 1869256338052032}
+  _sprGoodR: {fileID: 1039740583228016}
 --- !u!212 &212382071964069736
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -210,7 +210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &339656798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -284,7 +284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &354090383
 RectTransform:
   m_ObjectHideFlags: 0
@@ -496,8 +496,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &660792633
 MonoBehaviour:
@@ -728,7 +728,7 @@ MonoBehaviour:
   _showLow: 1
   _timeToHideBeat: 0.3
   _delayBeat: 250
-  bpm: 212
+  bpm: 200
   gain: 0.5
   signatureHi: 4
   signatureLo: 4
@@ -752,11 +752,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114187052596659256, guid: 26ad49c5360b69843b2ea1c7b405e67a,
-        type: 2}
-      propertyPath: _combos.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4384362882973874, guid: 26ad49c5360b69843b2ea1c7b405e67a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -794,23 +789,16 @@ Prefab:
       propertyPath: _beatManager
       value: 
       objectReference: {fileID: 855329820}
-    - target: {fileID: 114187052596659256, guid: 26ad49c5360b69843b2ea1c7b405e67a,
+    - target: {fileID: 114422769714668040, guid: 26ad49c5360b69843b2ea1c7b405e67a,
         type: 2}
-      propertyPath: _combos.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3704f11f3ea02f64a901650cf7d5f101,
-        type: 2}
-    - target: {fileID: 114187052596659256, guid: 26ad49c5360b69843b2ea1c7b405e67a,
-        type: 2}
-      propertyPath: _delayBeat
-      value: 500
+      propertyPath: _timeToHideComboFeedback
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114187052596659256, guid: 26ad49c5360b69843b2ea1c7b405e67a,
         type: 2}
-      propertyPath: _combos.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 75f5aa22790b4684ca470f77fe57db54,
-        type: 2}
+      propertyPath: _timeDelayBeforeComboComplete
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26ad49c5360b69843b2ea1c7b405e67a, type: 2}
   m_IsPrefabParent: 0
@@ -827,7 +815,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1194820219}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1d77bd1f7718646ac275aba3311833, type: 3}
+  m_Script: {fileID: 11500000, guid: 49a54c5f4b163214ca1a0c95d8bbec6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1207347140
@@ -998,8 +986,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
-  m_SizeDelta: {x: -100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1412073828
 MonoBehaviour:

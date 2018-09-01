@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboName: UP
   beats: HLHL
-  keyAction: Skip Punch!
+  keyAction: 1
