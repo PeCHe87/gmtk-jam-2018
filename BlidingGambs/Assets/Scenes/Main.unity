@@ -723,12 +723,11 @@ MonoBehaviour:
   _gameStarted: 0
   _txtHigh: {fileID: 660792633}
   _txtLow: {fileID: 1412073828}
-  _txtHighInput: {fileID: 339656799}
-  _txtLowInput: {fileID: 354090384}
   _btnStart: {fileID: 1814770492}
   _btnPause: {fileID: 422820665}
   _showLow: 1
   _timeToHideBeat: 0.3
+  _delayBeat: 250
   bpm: 212
   gain: 0.5
   signatureHi: 4
@@ -815,6 +814,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26ad49c5360b69843b2ea1c7b405e67a, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1194820219 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1998692082679382, guid: 26ad49c5360b69843b2ea1c7b405e67a,
+    type: 2}
+  m_PrefabInternal: {fileID: 882820438}
+--- !u!114 &1194820220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1194820219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1d77bd1f7718646ac275aba3311833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1207347140
 GameObject:
   m_ObjectHideFlags: 0

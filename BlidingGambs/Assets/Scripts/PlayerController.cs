@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : EntityController
 {
     [Tooltip("List of possibles combos to perform")]
     [SerializeField] private List<ScriptableCombo> _combos;
     [SerializeField] private bool comboStarted = false;     //TODO: combo is started when combo builder has something
     [SerializeField] private bool _canDebug = false;
-    
     [SerializeField] private BeatManager _beatManager;
 
     private int currentComboStep = 0;
