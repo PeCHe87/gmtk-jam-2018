@@ -204,4 +204,9 @@ public class PlayerController : EntityController
         InputController.OnActionKeyPressed -= Action;
         _beatManager.OnBeat -= NewBeat;
     }
+
+    public bool PerformedSucessfulCombo()
+    {
+        return false;
+    }
 }
