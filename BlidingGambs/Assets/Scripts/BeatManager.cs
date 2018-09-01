@@ -4,22 +4,24 @@ using UnityEngine.UI;
 
 //https://www.reddit.com/r/Unity3D/comments/4eruce/sampleprecise_audio_syncing_in_unity_driving_me/
 
-public class AudioToneManager : MonoBehaviour
+public class BeatManager : MonoBehaviour
 {
     public System.Action<char> OnBeat;
 
-    [Tooltip("Time between beats (BPM)")]
-    [SerializeField] private float _timeBetweenBeats = 60;
     [SerializeField] private bool _gameStarted = false;
     [SerializeField] private Text _txtHigh, _txtLow, _txtHighInput, _txtLowInput;
     [SerializeField] private GameObject _btnStart, _btnPause;
     [SerializeField] private bool _showLow = true;
     [SerializeField] private float _timeToHideBeat = 0.5f;
+    [SerializeField] private float _delayBeat = 250;
 
     private bool isHigh = true;
     private AudioSource audioSource;
     private float currentTime = 0;
 
+    public float DelayBeat { get { return _delayBeat; } }
+
+    [Tooltip("Time between beats (BPM)")]
     public double bpm = 140.0F;
     public float gain = 0.5F;
     public int signatureHi = 4;
@@ -41,8 +43,6 @@ public class AudioToneManager : MonoBehaviour
         _btnPause.SetActive(true);
         _btnStart.SetActive(false);
 
-        //StartCoroutine(CheckTones());
-
         audioSource.Play();
     }
 
@@ -62,8 +62,6 @@ public class AudioToneManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        //currentTime = 0;
-
         _txtHighInput.color = Color.black;
         _txtLowInput.color = Color.black;
 
@@ -76,23 +74,6 @@ public class AudioToneManager : MonoBehaviour
         nextTick = startTick * sampleRate;
         running = true;
     }
-
-    /*private void FixedUpdate()
-    {
-        if (_gameStarted)
-        {
-            Debug.Log("<b>Current time: </b>" + audioSource.time);
-
-            currentTime += Time.fixedDeltaTime;
-
-            if (currentTime >= _timeBetweenBeats/60)
-            {
-                ShowTone();
-
-                currentTime = 0;
-            }
-        }
-    }*/
 
     private void Update()
     {
@@ -117,45 +98,6 @@ public class AudioToneManager : MonoBehaviour
         currentTime = _timeToHideBeat;
         _txtHighInput.color = (tick == 1)?Color.green:((tick == 2)?Color.red:Color.black);
         _txtLowInput.color = (tick == 3) ? Color.green : ((tick == 4) ? Color.red : Color.black);
-    }
-
-    /*private IEnumerator CheckTones()
-    {
-        while (_gameStarted)
-        {
-            ShowTone();
-
-            yield return new WaitForSeconds(60 / _timeBetweenBeats);
-        }
-    }*/
-
-    private void ShowTone()
-    {
-        /*if (isHigh)
-            Debug.Log("<color=green>Current time: </color>" + audioSource.time);
-        else
-            Debug.Log("<color=orange>Current time: </color>" + audioSource.time);*/
-
-        if (isHigh)
-        {
-            _txtHigh.text ="1";
-            _txtLow.text = string.Empty;
-        }
-        else
-        {
-            if (_showLow)
-            {
-                _txtHigh.text = string.Empty;
-                _txtLow.text = "2";
-            }
-            else
-            {
-                _txtHigh.text = string.Empty;
-                _txtLow.text = string.Empty;
-            }
-        }
-
-        isHigh = !isHigh;
     }
 
     private IEnumerator HideTone()
@@ -198,7 +140,6 @@ public class AudioToneManager : MonoBehaviour
                 if (accent == 1)
                     showTone = true;
 
-                //Debug.Log("Tick: " + accent + "/" + signatureHi);
                 OnBeat((accent % 2 == 0)?'L':'H');
 
             }
