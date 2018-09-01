@@ -178,4 +178,9 @@ public class PlayerController : MonoBehaviour
         InputController.OnActionKeyPressed -= Action;
         _beatManager.OnBeat -= NewBeat;
     }
+
+    public bool PerformedSucessfulCombo()
+    {
+        return false;
+    }
 }
