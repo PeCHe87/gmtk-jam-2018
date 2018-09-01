@@ -9,7 +9,7 @@ public class BeatManager : MonoBehaviour
     public System.Action<char> OnBeat;
 
     [SerializeField] private bool _gameStarted = false;
-    [SerializeField] private Text _txtHigh, _txtLow, _txtHighInput, _txtLowInput;
+    [SerializeField] private Text _txtHigh, _txtLow; // _txtHighInput, _txtLowInput;
     [SerializeField] private GameObject _btnStart, _btnPause;
     [SerializeField] private bool _showLow = true;
     [SerializeField] private float _timeToHideBeat = 0.5f;
@@ -62,8 +62,8 @@ public class BeatManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        _txtHighInput.color = Color.black;
-        _txtLowInput.color = Color.black;
+        //_txtHighInput.color = Color.black;
+        //_txtLowInput.color = Color.black;
 
         PauseGame();
 
@@ -83,8 +83,8 @@ public class BeatManager : MonoBehaviour
         currentTime -= Time.deltaTime;
         if (currentTime <= 0)
         {
-            _txtHighInput.color = Color.black;
-            _txtLowInput.color = Color.black;
+            //_txtHighInput.color = Color.black;
+            //_txtLowInput.color = Color.black;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -96,8 +96,8 @@ public class BeatManager : MonoBehaviour
     private void ShowFeedback(int tick)
     {
         currentTime = _timeToHideBeat;
-        _txtHighInput.color = (tick == 1)?Color.green:((tick == 2)?Color.red:Color.black);
-        _txtLowInput.color = (tick == 3) ? Color.green : ((tick == 4) ? Color.red : Color.black);
+        //_txtHighInput.color = (tick == 1)?Color.green:((tick == 2)?Color.red:Color.black);
+        //_txtLowInput.color = (tick == 3) ? Color.green : ((tick == 4) ? Color.red : Color.black);
     }
 
     private IEnumerator HideTone()

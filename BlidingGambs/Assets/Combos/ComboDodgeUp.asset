@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: ComboDodgeUp
   m_EditorClassIdentifier: 
   comboName: UP
-  beats: HL
-  keyAction: Skip Punch!
+  beats: HLHL
+  keyAction: 1
