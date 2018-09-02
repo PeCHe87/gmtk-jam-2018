@@ -2,6 +2,8 @@
 
 public class GraphicStateEnemy : MonoBehaviour, IGraphicState 
 {
+    [SerializeField] private Animator _anim;
+
     [SerializeField] private float _timeToHideFeedback;
 
     [Header("Color feedbacks")]
@@ -28,18 +30,16 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
 
     public void LoseFeedback()
     {
-        /*_sprBad.SetActive(false);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
-        */
-        _sprBody.color = looserColor;
+        //_sprBody.color = looserColor;
 
         goodFeedback = 0;
 
-        currentTimeToHideFeedback = _timeToHideFeedback;
+        //currentTimeToHideFeedback = _timeToHideFeedback;
 
-        //TODO: Enemy lose feedback
+        //Enemy lose feedback
         Debug.Log("<color=red>Enemy LOSE!</color>");
+
+        _anim.SetTrigger("Dead");
     }
 
     public void NegativeFeedback(ScriptableCombo combo)
@@ -47,21 +47,17 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         
     }
 
-    public void PositiveFeedback(int step, AudioClip clip)
+    public void PositiveFeedback(int step, AudioClip clip, int comboStep)
     {
         
     }
 
     public void WinFeedback()
     {
-        /*_sprBad.SetActive(false);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
-
-        _sprBody.color = winnerColor;*/
-
-        //TODO: Show enemy as winner after attacking
+        //Show enemy as winner after attacking
         Debug.Log("<color=red>Enemy is WINNER!</color>");
+
+        _anim.SetBool("Win", true);
     }
 
     public void PerformCombo(ScriptableCombo actionCombo)
@@ -79,7 +75,6 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
     {
         entityController = GetComponent<EntityController>();
 
-        /*entityController.OnLoose += LooseFeedback;*/
         entityController.OnWin += WinFeedback;
         entityController.OnAttack += Attack;
         entityController.OnMissAttack += MissAttack;
@@ -116,33 +111,33 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         _sprBody.color = Color.white;
     }
 
-    private void ReceiveDamage(ScriptableAttack attack)
-    {
-        if (attack.action == ActionType.Type.KICK)
-        {
-            //TODO: Show damage by Kick animation
-        }
-        else if (attack.action == ActionType.Type.PUNCH)
-        {
-            //TODO: show damage by Punch animation
-        }
-    }
-
     private void Attack(ScriptableAttack attack)
     {
-        //TODO: Show animation based on type of attack
+        int type = (attack.action == ActionType.Type.PUNCH) ? 0 : 1;
+
+        //Show animation of attack based on type of attack
+        _anim.SetInteger("AttackType", type);
+        _anim.SetBool("AttackMiss", false);
+        _anim.SetTrigger("Attack");
     }
 
     private void MissAttack(ScriptableAttack attack)
     {
-        //TODO: Show animation based on type of attack
+        int type = (attack.action == ActionType.Type.PUNCH) ? 0 : 1;
 
-        //TODO: Add right value to the sliding after missing attack based on attack type
+        //Show animation of attack based on type of attack
+        _anim.SetInteger("AttackType", type);
+        _anim.SetBool("AttackMiss", true);
+        _anim.SetTrigger("Attack");
     }
 
     private void PreAttack(ScriptableAttack attack)
     {
-        //TODO: Show animation of pre attack based on type of attack
+        int type = (attack.action == ActionType.Type.PUNCH) ? 0 : 1;
+
+        //Show animation of pre attack based on type of attack
+        _anim.SetInteger("AttackType", type);
+        _anim.SetTrigger("AttackPre");
     }
 
     private void OnDestroy()

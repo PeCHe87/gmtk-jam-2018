@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MusicController : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class MusicController : MonoBehaviour
+{
+    [SerializeField] private AudioClip _clipPuke;
+    [SerializeField] private AudioClip _clipEnemyCrash;
+    [SerializeField] private AudioClip _clipWinScratching;
+    [SerializeField] private AudioClip _clipPlayerCrash;
+    [SerializeField] private AudioClip _clipMainMusic;
 }

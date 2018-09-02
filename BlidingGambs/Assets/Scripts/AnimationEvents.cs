@@ -14,8 +14,18 @@ public class AnimationEvents : MonoBehaviour
         //TODO: play one shot a SFX to define (Turn table) 
     }
 
+    public void CrashEnemyPreDefeat()
+    {
+        //TODO: play SFX of enemy crashing
+    }
+
     public void EndEnemyPreDefeat()
     {
         //TODO: player has to play its winner animation
+    }
+
+    public void PreDefeatEnemyPuking()
+    {
+        //TODO: play SFX of puke
     }
 }
