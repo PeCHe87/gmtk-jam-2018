@@ -14,7 +14,7 @@ public class PlayerController : EntityController
     [SerializeField] private float _timeDelayBeforeComboComplete = 0.5f;
     [Tooltip("Time to back to idle after wrong combo step")]
     [SerializeField] private float _delayToBackIdle = 0.5f;
-    [Tooltip("Time to be performing the combo before back to idle and able to normal input")]
+    [Tooltip("Time player will be performing the combo before back to idle and able to normal input")]
     [SerializeField] private float _timePerformingCombo;
     [Tooltip("Time to back to idle after getting damage")]
     [SerializeField] private float _timeToRecoverAfterDamaging;
@@ -55,6 +55,8 @@ public class PlayerController : EntityController
         //Player isn't able to perform actions until it recovers
         isAbleToPerformActions = false;
         timeToRecoverAfterGetDamage = _timeToRecoverAfterDamaging;
+
+        Debug.Log("<color=green>Player</color> get damage");
     }
 
     public bool IsPerformingComboToAvoidAttack(ScriptableAttack attack)
@@ -69,6 +71,8 @@ public class PlayerController : EntityController
 
         return false;
     }
+
+    public float TimePerformingCombo { get { return _timePerformingCombo; } }
 
     public int GetCurrentHealth()
     {
@@ -106,6 +110,8 @@ public class PlayerController : EntityController
             {
                 timeToRecoverAfterGetDamage = 0;
                 isAbleToPerformActions = true;
+
+                Debug.Log("<color=green>Player</color> recovers after damaging");
             }
 
             return;
@@ -120,6 +126,8 @@ public class PlayerController : EntityController
             {
                 timePerformingComboRemains = 0;
                 isAbleToPerformActions = true;
+
+                Debug.Log("<color=green>Player</color> just finished performing <color=yellow><b>combo</b></color>");
             }
 
             return;
@@ -333,6 +341,8 @@ public class PlayerController : EntityController
     private IEnumerator Idle()
     {
         yield return new WaitForSeconds(_delayToBackIdle);
+
+        Debug.Log("<color=green>Player</color> back to idle");
 
         OnIdle();
 

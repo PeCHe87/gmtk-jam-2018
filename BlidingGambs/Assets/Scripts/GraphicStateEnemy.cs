@@ -3,7 +3,6 @@
 public class GraphicStateEnemy : MonoBehaviour, IGraphicState 
 {
     [SerializeField] private float _timeToHideFeedback;
-    [SerializeField] private float _timeToHideComboFeedback;
 
     [Header("Color feedbacks")]
     [SerializeField] private Color comboColor = Color.magenta;
@@ -21,6 +20,12 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
     private int goodFeedback = 0;
 
     #region Implementation of Graphic State interface
+    public void Idle()
+    {
+        //TODO: Show enemy idle animation
+        Debug.Log("<color=orange>Enem</color>::Idle");
+    }
+
     public void LooseFeedback()
     {
         _sprBad.SetActive(false);
@@ -76,6 +81,7 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         entityController.OnAttack += Attack;
         entityController.OnMissAttack += MissAttack;
         entityController.OnPreAttack += PreAttack;
+        entityController.OnIdle += Idle;
     }
 
     private void Start()
@@ -127,7 +133,7 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
     {
         //TODO: Show animation based on type of attack
 
-        //TODO: Add right value to the sliding after missing attack
+        //TODO: Add right value to the sliding after missing attack based on attack type
     }
 
     private void PreAttack(ScriptableAttack attack)
@@ -142,5 +148,6 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         entityController.OnAttack -= Attack;
         entityController.OnMissAttack -= MissAttack;
         entityController.OnPreAttack -= PreAttack;
+        entityController.OnIdle -= Idle;
     }
 }
