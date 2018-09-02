@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GraphicStatePlayer : MonoBehaviour, IGraphicState 
+public class GraphicStateEnemy : MonoBehaviour, IGraphicState 
 {
     [SerializeField] private float _timeToHideFeedback;
     [SerializeField] private float _timeToHideComboFeedback;
@@ -36,57 +36,29 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
     public void NegativeFeedback(ScriptableCombo combo)
     {
-        _sprBad.SetActive(true);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
-
-        _sprBody.color = Color.white;
-
-        currentTimeToHideFeedback = _timeToHideFeedback;
+        
     }
 
     public void PositiveFeedback(int step, AudioClip clip)
     {
-        _sprBad.SetActive(false);
-        _sprGoodL.SetActive(goodFeedback % 2 == 0);
-        _sprGoodR.SetActive(goodFeedback % 2 != 0);
-
-        goodFeedback++;
-
-        _sprBody.color = Color.white;
-
-        currentTimeToHideFeedback = _timeToHideFeedback;
+        
     }
 
     public void WinFeedback()
     {
-        _sprBad.SetActive(false);
+        /*_sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
         _sprGoodR.SetActive(false);
 
-        _sprBody.color = winnerColor;
+        _sprBody.color = winnerColor;*/
+
+        //TODO: Show enemy as winner after attacking
+        Debug.Log("<color=red>Enemy is WINNER!</color>");
     }
 
     public void PerformCombo(ScriptableCombo actionCombo)
     {
-        _sprBad.SetActive(false);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
-
-        _sprBody.color = comboColor;
-
-        currentTimeToHideFeedback = _timeToHideComboFeedback;
-
-        switch (actionCombo.keyAction)
-        {
-            case ActionType.Type.DODGE_DOWN:
-                DodgeDown();
-                break;
-
-            case ActionType.Type.DODGE_UP:
-                DodgeUp();
-                break;
-        }
+        
     }
 
     public void Initialize()
@@ -99,13 +71,11 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
     {
         entityController = GetComponent<EntityController>();
 
-        entityController.OnGoodComboStep += PositiveFeedback;
-        entityController.OnBadComboStep += NegativeFeedback;
-        entityController.OnLoose += LooseFeedback;
+        /*entityController.OnLoose += LooseFeedback;*/
         entityController.OnWin += WinFeedback;
-        entityController.OnComboComplete += PerformCombo;
-        entityController.OnReceiveDamage += ReceiveDamage;
-        ((PlayerController)entityController).Health.OnDead += Dead;
+        entityController.OnAttack += Attack;
+        entityController.OnMissAttack += MissAttack;
+        entityController.OnPreAttack += PreAttack;
     }
 
     private void Start()
@@ -129,27 +99,15 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
     private void HideFeedback()
     {
-        _sprBad.SetActive(false);
+        /*_sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
+        _sprGoodR.SetActive(false);*/
 
         _sprBody.color = Color.white;
     }
 
-    private void DodgeDown()
-    {
-        Debug.Log("Action: <b><color=magenta>DOWN</color></b>");
-    }
-
-    private void DodgeUp()
-    {
-        Debug.Log("Action: <b><color=magenta>UP</color></b>");
-    }
-
     private void ReceiveDamage(ScriptableAttack attack)
     {
-        Debug.Log("Action: player <b><color=orange>RECEIVES Damage</color></b> by " + attack.action);
-
         if (attack.action == ActionType.Type.KICK)
         {
             //TODO: Show damage by Kick animation
@@ -160,19 +118,29 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         }
     }
 
-    private void Dead()
+    private void Attack(ScriptableAttack attack)
     {
-        Debug.Log("<b><color=red>DEAD</color></b>");
+        //TODO: Show animation based on type of attack
+    }
+
+    private void MissAttack(ScriptableAttack attack)
+    {
+        //TODO: Show animation based on type of attack
+
+        //TODO: Add right value to the sliding after missing attack
+    }
+
+    private void PreAttack(ScriptableAttack attack)
+    {
+        //TODO: Show animation of pre attack based on type of attack
     }
 
     private void OnDestroy()
     {
-        entityController.OnGoodComboStep -= PositiveFeedback;
-        entityController.OnBadComboStep -= NegativeFeedback;
-        entityController.OnLoose -= LooseFeedback;
+        /*entityController.OnLoose -= LooseFeedback;*/
         entityController.OnWin -= WinFeedback;
-        entityController.OnComboComplete -= PerformCombo;
-        entityController.OnReceiveDamage -= ReceiveDamage;
-        ((PlayerController)entityController).Health.OnDead -= Dead;
+        entityController.OnAttack -= Attack;
+        entityController.OnMissAttack -= MissAttack;
+        entityController.OnPreAttack -= PreAttack;
     }
 }

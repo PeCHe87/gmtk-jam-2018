@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SoundState : MonoBehaviour
 {
     [SerializeField] private EntityController _target;
     [Header("Sounds")]
-    [SerializeField] private AudioClip _clipDamage;
     [SerializeField] private AudioClip _clipBadComboStep;
 
     private AudioSource audioSource;
@@ -16,6 +16,9 @@ public class SoundState : MonoBehaviour
         _target.OnGoodComboStep += GoodComboStep;
         _target.OnBadComboStep += BadComboStep;
         _target.OnComboComplete += PerformCombo;
+        _target.OnReceiveDamage += ReceiveDamage;
+        _target.OnMissAttack += MissAttack;
+        _target.OnPreAttack += PreAttack;
     }
 
     private void GoodComboStep(int step, AudioClip clip)
@@ -23,9 +26,9 @@ public class SoundState : MonoBehaviour
         Play(clip);
     }
 
-    private void BadComboStep()
+    private void BadComboStep(ScriptableCombo combo)
     {
-        Play(_clipBadComboStep);
+        Play(combo.clipBadStep);
     }
 
     private void PerformCombo(ScriptableCombo combo)
@@ -35,15 +38,41 @@ public class SoundState : MonoBehaviour
         Play(combo.clipsFeedback[clipIndex]);
     }
 
+    private void ReceiveDamage(ScriptableAttack attack)
+    {
+        Play(attack.clipHit);
+    }
+
+    private void MissAttack(ScriptableAttack attack)
+    {
+        Play(attack.clipSwoosh);
+    }
+
+    private void PreAttack(ScriptableAttack attack)
+    {
+        PlayLoop(attack.clipPre);
+    }
+
     private void OnDestroy()
     {
         _target.OnGoodComboStep -= GoodComboStep;
         _target.OnBadComboStep -= BadComboStep;
         _target.OnComboComplete -= PerformCombo;
+        _target.OnReceiveDamage -= ReceiveDamage;
+        _target.OnMissAttack -= MissAttack;
+        _target.OnPreAttack -= PreAttack;
     }
 
     public void Play(AudioClip clip)
     {
+        audioSource.loop = false;
         audioSource.PlayOneShot(clip);
+    }
+
+    public void PlayLoop(AudioClip clip)
+    {
+        audioSource.loop = true;
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

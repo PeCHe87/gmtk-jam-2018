@@ -5,9 +5,13 @@ public class EntityController : MonoBehaviour
 {
     #region Events
     public Action<int, AudioClip> OnGoodComboStep;
-    public Action OnBadComboStep;
+    public Action<ScriptableCombo> OnBadComboStep;
     public Action OnLoose;
     public Action OnWin;
     public Action<ScriptableCombo> OnComboComplete;
+    public Action<ScriptableAttack> OnReceiveDamage;
+    public Action<ScriptableAttack> OnMissAttack;
+    public Action<ScriptableAttack> OnAttack;
+    public Action<ScriptableAttack> OnPreAttack;
     #endregion
 }

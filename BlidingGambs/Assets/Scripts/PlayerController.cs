@@ -19,22 +19,45 @@ public class PlayerController : EntityController
     private StringBuilder currentCombo;
     private bool delayActive = false;
     private float delayBeat;
+    private int currentBeatsRemainingAfterCombo = 0;
+    private ScriptableCombo performingCombo = null;
+    private HealthController healthController;
 
-    public void Damage(int damage)  //TODO: add param to indicate the action performed by enemy
+    public HealthController Health { get { return healthController; } }
+
+    public void Damage(int damage, ScriptableAttack enemyAttack)
     {
         //Update HealthController
+        healthController.Damage(damage);
 
-        //Show damage graphic animation feedback
+        //Show damage graphic animation feedback based on attack
+        OnReceiveDamage(enemyAttack);
 
-        //SFX of cancel combo if player is building the combo
+        //SFX of cancel combo if player is building the combo [NO because Hit has priority]
 
-        //SFX of hit damage of type of attack
+        //SFX of hit damage of type of attack [DONE: sound state uses the event OnReceiveDamage to reproduce the clip]
 
         //Cancel combo in progress if player was building a combo
+        ResetCurrentCombo();
+    }
+
+    public bool IsPerformingComboToAvoidAttack(ScriptableAttack attack)
+    {
+        if (performingCombo != null)
+        {
+            if (performingCombo.enemyAttackBlocked == attack)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void Awake()
     {
+        healthController = GetComponent<HealthController>();
+
         currentCombo = new StringBuilder();
 
         _beatManager.OnBeat += NewBeat;
@@ -117,7 +140,7 @@ public class PlayerController : EntityController
                 return true;
         }
 
-        OnBadComboStep();
+        OnBadComboStep(_combos[0]);
 
         return false;
     }
@@ -158,7 +181,20 @@ public class PlayerController : EntityController
             yield return null;
         }
 
-        if (comboStarted)
+        //If user is waiting beats after performing a combo
+        if (currentBeatsRemainingAfterCombo > 0)
+        {
+            currentBeatsRemainingAfterCombo--;
+
+            if (currentBeatsRemainingAfterCombo == 0)
+            {
+                //TODO: feedback to show user recovers its input
+
+                //Reset last combo performed
+                performingCombo = null;
+            }
+        }
+        else if (comboStarted)
         {
             if (CheckComboStep(true))
             {
@@ -192,6 +228,10 @@ public class PlayerController : EntityController
     {
         //Reset action started
         comboStarted = false;
+
+        currentBeatsRemainingAfterCombo = actionCombo.beatsFreezingAfterCombo;
+
+        performingCombo = actionCombo;
 
         currentComboStep = 0;
 

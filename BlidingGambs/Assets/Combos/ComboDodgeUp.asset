@@ -19,3 +19,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
+  beatsFreezingAfterCombo: 4
+  enemyAttackBlocked: {fileID: 11400000, guid: d324ca20c5b4b457d8c4ed7742837f6b, type: 2}
+  clipBadStep: {fileID: 8300000, guid: 52c7d058e33b8a1458cb722c2d8c23e1, type: 3}

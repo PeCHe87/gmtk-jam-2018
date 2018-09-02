@@ -9,16 +9,15 @@ public class GameController : MonoBehaviour {
 
     private BeatManager _beatManager;
 
-    // Use this for initialization
-    private void Awake () 
+    private void Awake() 
     {
         _beatManager = GetComponent<BeatManager>();
 	}
 
-    // Update is called once per frame
-    private void Update () {
-		
-	}
+    private void Start()
+    {
+        enemy.Init(this);
+    }
 
     public PlayerController GetPlayer()
     {

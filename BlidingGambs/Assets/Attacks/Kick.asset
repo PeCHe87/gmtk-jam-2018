@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,5 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Kick
   damage: 40
-  beatDelay: 4
-  beatTolerance: 3
+  preparationBeats: 8
+  recoveryBeats: 10
+  toleranceBeats: 4
+  action: 3
+  clipHit: {fileID: 8300000, guid: a1465e2e8e3043d44a0133fd00c44e0d, type: 3}
+  clipSwoosh: {fileID: 8300000, guid: 836e3667f73400345bac164bfcd639a5, type: 3}
+  clipPre: {fileID: 8300000, guid: 6b7630f0f067f9b49aa948cc184f264c, type: 3}
