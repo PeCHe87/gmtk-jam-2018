@@ -19,6 +19,7 @@ public class SoundState : MonoBehaviour
         _target.OnReceiveDamage += ReceiveDamage;
         _target.OnMissAttack += MissAttack;
         _target.OnPreAttack += PreAttack;
+        _target.OnAttack += Attack;
     }
 
     private void GoodComboStep(int step, AudioClip clip)
@@ -40,7 +41,7 @@ public class SoundState : MonoBehaviour
 
     private void ReceiveDamage(ScriptableAttack attack)
     {
-        Play(attack.clipHit);
+        //Play(attack.clipHit);
     }
 
     private void MissAttack(ScriptableAttack attack)
@@ -53,6 +54,11 @@ public class SoundState : MonoBehaviour
         PlayLoop(attack.clipPre);
     }
 
+    private void Attack(ScriptableAttack attack)
+    {
+        Play(attack.clipHit);
+    }
+
     private void OnDestroy()
     {
         _target.OnGoodComboStep -= GoodComboStep;
@@ -61,18 +67,25 @@ public class SoundState : MonoBehaviour
         _target.OnReceiveDamage -= ReceiveDamage;
         _target.OnMissAttack -= MissAttack;
         _target.OnPreAttack -= PreAttack;
+        _target.OnAttack -= Attack;
     }
 
     public void Play(AudioClip clip)
     {
+        Debug.Log("SoundState::<b>Play</b> -- loop: " + audioSource.loop);
         audioSource.loop = false;
-        audioSource.PlayOneShot(clip);
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play(); //audioSource.PlayOneShot(clip);
     }
 
     public void PlayLoop(AudioClip clip)
     {
+        
         audioSource.loop = true;
         audioSource.clip = clip;
+        Debug.Log("SoundState::<b>PlayLoop</b> -- loop: " + audioSource.loop);
+
         audioSource.Play();
     }
 }

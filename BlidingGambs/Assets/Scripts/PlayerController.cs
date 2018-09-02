@@ -12,6 +12,12 @@ public class PlayerController : EntityController
     [SerializeField] private bool _canDebug = false;
     [SerializeField] private BeatManager _beatManager;
     [SerializeField] private float _timeDelayBeforeComboComplete = 0.5f;
+    [Tooltip("Time to back to idle after wrong combo step")]
+    [SerializeField] private float _delayToBackIdle = 0.5f;
+    [Tooltip("Time to be performing the combo before back to idle and able to normal input")]
+    [SerializeField] private float _timePerformingCombo;
+    [Tooltip("Time to back to idle after getting damage")]
+    [SerializeField] private float _timeToRecoverAfterDamaging;
 
     private int currentComboStep = 0;
     private bool skipBeat = false;
@@ -22,6 +28,9 @@ public class PlayerController : EntityController
     private int currentBeatsRemainingAfterCombo = 0;
     private ScriptableCombo performingCombo = null;
     private HealthController healthController;
+    private bool isAbleToPerformActions = true;
+    private float timePerformingComboRemains = 0;
+    private float timeToRecoverAfterGetDamage = 0;
 
     public HealthController Health { get { return healthController; } }
 
@@ -39,6 +48,13 @@ public class PlayerController : EntityController
 
         //Cancel combo in progress if player was building a combo
         ResetCurrentCombo();
+
+        //If player is performing a combo
+        timePerformingComboRemains = 0;
+
+        //Player isn't able to perform actions until it recovers
+        isAbleToPerformActions = false;
+        timeToRecoverAfterGetDamage = _timeToRecoverAfterDamaging;
     }
 
     public bool IsPerformingComboToAvoidAttack(ScriptableAttack attack)
@@ -54,8 +70,20 @@ public class PlayerController : EntityController
         return false;
     }
 
+    public int GetCurrentHealth()
+    {
+        return healthController.Health;
+    }
+
+    public int MaxHealth()
+    {
+        return healthController.MaxHealth;
+    }
+
     private void Awake()
     {
+        GameController.OnGameTimeComplete += Win;
+
         healthController = GetComponent<HealthController>();
 
         currentCombo = new StringBuilder();
@@ -69,6 +97,34 @@ public class PlayerController : EntityController
 
     private void Update()
     {
+        //It is waiting to recover after getting damage
+        if (timeToRecoverAfterGetDamage > 0)
+        {
+            timeToRecoverAfterGetDamage -= Time.deltaTime;
+
+            if (timeToRecoverAfterGetDamage <= 0)
+            {
+                timeToRecoverAfterGetDamage = 0;
+                isAbleToPerformActions = true;
+            }
+
+            return;
+        }
+
+        //It is waiting to finish the combo
+        if (timePerformingComboRemains > 0)
+        {
+            timePerformingComboRemains -= Time.deltaTime;
+
+            if (timePerformingComboRemains <= 0)
+            {
+                timePerformingComboRemains = 0;
+                isAbleToPerformActions = true;
+            }
+
+            return;
+        }
+
         if (delayActive)
         {
             delayActive = false;
@@ -77,7 +133,10 @@ public class PlayerController : EntityController
     }
 
     private void Action()
-    {       
+    {
+        if (!isAbleToPerformActions)
+            return;
+
         if (CheckComboStep())
         {
             comboStarted = true;
@@ -91,7 +150,12 @@ public class PlayerController : EntityController
         }
         else
         {
-             ResetCurrentCombo();
+            ResetCurrentCombo();
+
+            isAbleToPerformActions = false;
+
+            //Back to idle when player fails
+            StartCoroutine(Idle());
         }
     }
 
@@ -208,6 +272,11 @@ public class PlayerController : EntityController
             else
             {
                 ResetCurrentCombo(true);
+
+                isAbleToPerformActions = false;
+
+                //Back to idle when player fails
+                StartCoroutine(Idle());
             }
         }
     }
@@ -238,6 +307,10 @@ public class PlayerController : EntityController
         currentCombo.Remove(0, currentCombo.Length);
 
         StartCoroutine(ShowComboCompleteFeedback(actionCombo));
+
+        isAbleToPerformActions = false;
+
+        timePerformingComboRemains = _timePerformingCombo;
     }
 
     private IEnumerator ShowComboCompleteFeedback(ScriptableCombo actionCombo)
@@ -247,10 +320,30 @@ public class PlayerController : EntityController
         OnComboComplete(actionCombo);
     }
 
+    private void Win()
+    {
+        delayActive = false;
+
+        isAbleToPerformActions = false;
+
+        //Update graphic state with idle animation because it doesn't have anything more to do
+        OnIdle();
+    }
+
+    private IEnumerator Idle()
+    {
+        yield return new WaitForSeconds(_delayToBackIdle);
+
+        OnIdle();
+
+        isAbleToPerformActions = true;
+    }
+
     private void OnDestroy()
     {
         InputController.OnActionKeyPressed -= Action;
         _beatManager.OnBeat -= NewBeat;
+        GameController.OnGameTimeComplete -= Win;
     }
 
     public bool PerformedSucessfulCombo()

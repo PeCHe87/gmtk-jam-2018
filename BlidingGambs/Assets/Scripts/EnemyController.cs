@@ -6,6 +6,10 @@ public class EnemyController : EntityController
     [Tooltip("List of possibles attacks to perform")]
     [SerializeField] private List<ScriptableAttack> _attacks;
     [SerializeField] private bool _canDebug = false;
+    [Tooltip("First steps that enemy waits for to start its behaviour")]
+    [SerializeField] private int _firstRecoveryBeats = 30;
+    [Tooltip("Fixed attacks that enemy will use before randomness")]
+    [SerializeField] private ScriptableAttack[] _firstFixedAttacks;
 
     private int _recoveryBeats = 0;
     private int _preparationBeats = 0;
@@ -16,6 +20,8 @@ public class EnemyController : EntityController
     private char currentBeat = ' ';
     private ScriptableAttack currentAttack = null;
     private bool playerIsDead = false;
+    private HealthController healthController;
+    private int firstAttacksDone = 0;
 
     public void Init(GameController gameController)
     {
@@ -26,6 +32,26 @@ public class EnemyController : EntityController
 
         player = _gameController.GetPlayer();
         player.Health.OnDead += PlayerDead;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return healthController.Health;
+    }
+
+    public int MaxHealth()
+    {
+        return healthController.MaxHealth;
+    }
+
+    private void Awake()
+    {
+        healthController = GetComponent<HealthController>();
+    }
+
+    private void Start()
+    {
+        _recoveryBeats = _firstRecoveryBeats;
     }
 
     private void NewBeat(char beat)
@@ -63,7 +89,7 @@ public class EnemyController : EntityController
             if (_preparationBeats == 0)
                 PerformAttack();
             else
-                Debug.Log("Preparing attack " + currentAttack.name + ": " + _preparationBeats + " beats left");
+                Debug.Log("Preparing attack <color=orange>" + currentAttack.name + "</color>: " + _preparationBeats + " beats left");
         }
         else
         {
@@ -79,7 +105,18 @@ public class EnemyController : EntityController
                 return;
             }
 
-            ScriptableAttack attack = _attacks[Random.Range(0, _attacks.Count)];
+            ScriptableAttack attack;
+
+            //Check if the first fixed attacks were performed
+            if (firstAttacksDone < _firstFixedAttacks.Length)
+            {
+                attack = _firstFixedAttacks[firstAttacksDone];
+                firstAttacksDone++;
+            }
+            else
+            {
+                attack = _attacks[Random.Range(0, _attacks.Count)];
+            }
 
             PrepareAttack(attack);
         };
@@ -94,7 +131,7 @@ public class EnemyController : EntityController
         _preparationBeats = attack.preparationBeats;
         _toleranceBeats = attack.toleranceBeats;
 
-        Debug.Log("Preparing attack " + currentAttack.name + ": " + _preparationBeats + " beats left");
+        Debug.Log("Preparing attack <b>" + currentAttack.name + "</b>: " + _preparationBeats + " beats left");
     }
 
     private void PerformAttack()

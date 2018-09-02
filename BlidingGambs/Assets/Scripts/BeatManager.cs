@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class BeatManager : MonoBehaviour
 {
     public System.Action<char> OnBeat;
+    public static System.Action OnGameStarted;
+    public static System.Action OnGamePaused;
 
     [SerializeField] private bool _gameStarted = false;
     [SerializeField] private Text _txtHigh, _txtLow;
@@ -43,6 +45,8 @@ public class BeatManager : MonoBehaviour
         _btnStart.SetActive(false);
 
         audioSource.Play();
+
+        OnGameStarted();
     }
 
     public void PauseGame()
@@ -55,6 +59,8 @@ public class BeatManager : MonoBehaviour
         _btnStart.SetActive(true);
 
         audioSource.Pause();
+
+        OnGamePaused();
     }
 
     private void Start()

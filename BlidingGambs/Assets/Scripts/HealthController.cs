@@ -8,6 +8,10 @@ public class HealthController : MonoBehaviour
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _health;
 	
+    public int Health { get { return _health; } }
+
+    public int MaxHealth { get { return _maxHealth; } }
+
     public void Damage(int amountOfDamage)
     {
         _health = Mathf.Clamp(_health - amountOfDamage, 0, _maxHealth);

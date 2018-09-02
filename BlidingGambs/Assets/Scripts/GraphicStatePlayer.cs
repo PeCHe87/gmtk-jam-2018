@@ -91,6 +91,8 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
     public void Initialize()
     {
+        ((PlayerController)entityController).Health.OnDead += Dead;
+
         HideFeedback();
     }
     #endregion
@@ -105,7 +107,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         entityController.OnWin += WinFeedback;
         entityController.OnComboComplete += PerformCombo;
         entityController.OnReceiveDamage += ReceiveDamage;
-        ((PlayerController)entityController).Health.OnDead += Dead;
+        entityController.OnIdle += Idle;
     }
 
     private void Start()
@@ -138,12 +140,17 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
     private void DodgeDown()
     {
-        Debug.Log("Action: <b><color=magenta>DOWN</color></b>");
+        Debug.Log("Player Action: <b><color=magenta>DOWN</color></b>");
     }
 
     private void DodgeUp()
     {
-        Debug.Log("Action: <b><color=magenta>UP</color></b>");
+        Debug.Log("Player Action: <b><color=magenta>UP</color></b>");
+    }
+
+    private void Idle()
+    {
+        Debug.Log("Player Action: <b><color=cyan>IDLE</color></b>");
     }
 
     private void ReceiveDamage(ScriptableAttack attack)
@@ -174,5 +181,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         entityController.OnComboComplete -= PerformCombo;
         entityController.OnReceiveDamage -= ReceiveDamage;
         ((PlayerController)entityController).Health.OnDead -= Dead;
+
+        entityController.OnIdle -= Idle;
     }
 }

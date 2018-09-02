@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Punch
   m_EditorClassIdentifier: 
   name: Punch
-  damage: 25
+  damage: 1
   preparationBeats: 8
   recoveryBeats: 10
   toleranceBeats: 4

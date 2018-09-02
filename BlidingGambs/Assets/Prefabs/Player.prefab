@@ -317,6 +317,9 @@ MonoBehaviour:
   _canDebug: 0
   _beatManager: {fileID: 0}
   _timeDelayBeforeComboComplete: 0
+  _delayToBackIdle: 0.5
+  _timePerformingCombo: 1
+  _timeToRecoverAfterDamaging: 1
 --- !u!114 &114422769714668040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -349,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
-  _health: 50
+  _health: 90
 --- !u!212 &212382071964069736
 SpriteRenderer:
   m_ObjectHideFlags: 1

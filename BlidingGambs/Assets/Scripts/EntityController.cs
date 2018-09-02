@@ -13,5 +13,6 @@ public class EntityController : MonoBehaviour
     public Action<ScriptableAttack> OnMissAttack;
     public Action<ScriptableAttack> OnAttack;
     public Action<ScriptableAttack> OnPreAttack;
+    public Action OnIdle;
     #endregion
 }
