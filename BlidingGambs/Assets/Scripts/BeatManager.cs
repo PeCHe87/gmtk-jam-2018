@@ -38,11 +38,18 @@ public class BeatManager : MonoBehaviour
     public void StartGame()
     {
         _gameStarted = true;
-        _txtHigh.text = string.Empty;
-        _txtLow.text = string.Empty;
 
-        _btnPause.SetActive(true);
-        _btnStart.SetActive(false);
+        if (_txtHigh != null)
+        {
+            _txtHigh.text = string.Empty;
+            _txtLow.text = string.Empty;
+        }
+
+        if (_btnPause != null)
+        {
+            _btnPause.SetActive(true);
+            _btnStart.SetActive(false);
+        }
 
         audioSource.Play();
 
@@ -52,11 +59,18 @@ public class BeatManager : MonoBehaviour
     public void PauseGame()
     {
         _gameStarted = false;
-        _txtHigh.text = string.Empty;
-        _txtLow.text = string.Empty;
 
-        _btnPause.SetActive(false);
-        _btnStart.SetActive(true);
+        if (_txtHigh != null)
+        {
+            _txtHigh.text = string.Empty;
+            _txtLow.text = string.Empty;
+        }
+
+        if (_btnPause != null)
+        {
+            _btnPause.SetActive(false);
+            _btnStart.SetActive(true);
+        }
 
         audioSource.Pause();
 
@@ -77,8 +91,10 @@ public class BeatManager : MonoBehaviour
 
     private void Update()
     {
-        _txtHigh.text = (accent % 2 == 1) ? "HI" : string.Empty;
-        _txtLow.text = (accent % 2 == 0) ? "LOW" : string.Empty;
+        if (_txtHigh != null) {
+            _txtHigh.text = (accent % 2 == 1) ? "HI" : string.Empty;
+            _txtLow.text = (accent % 2 == 0) ? "LOW" : string.Empty;
+        }
 
         currentTime -= Time.deltaTime;
         if (currentTime <= 0)
@@ -104,8 +120,11 @@ public class BeatManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_timeToHideBeat);
 
-        _txtHigh.text = string.Empty;
-        _txtLow.text = string.Empty;
+        if (_txtHigh != null)
+        {
+            _txtHigh.text = string.Empty;
+            _txtLow.text = string.Empty;
+        }
 
     }
 
