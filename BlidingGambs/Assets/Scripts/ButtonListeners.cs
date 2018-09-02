@@ -7,7 +7,7 @@ public class ButtonListeners : MonoBehaviour
 {
     public Button _continue;
     public Button _link;
-    public Image splash;
+    public Image _splash;
 
     void Start()
     {
@@ -17,7 +17,9 @@ public class ButtonListeners : MonoBehaviour
 
     void Continue()
     {
-        splash.enabled = true;
+        _continue.GetComponent<Image>().enabled = false;
+        _link.GetComponent<Image>().enabled = false;
+        _splash.enabled = true;
 
         StartCoroutine(LoadNextScene());
     }
