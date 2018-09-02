@@ -8,11 +8,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private EnemyController enemy;
     [SerializeField] private int _gameTotalTime = 60;
 
-    protected BeatManager _beatManager;
+    private BeatManager _beatManager;
     private float currentTime = 0;
     private bool gameStarted = false;
 
-    protected void Awake() 
+    private void Awake() 
     {
         _beatManager = GetComponent<BeatManager>();
 
@@ -24,10 +24,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        if (enemy != null)
-            enemy.Init(this);
-
-        currentTime = _gameTotalTime;
+        enemy.Init(this);
     }
 
     private void Update()
@@ -47,7 +44,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    protected void GameStarted()
+    private void GameStarted()
     {
         gameStarted = true;
     }
@@ -60,7 +57,7 @@ public class GameController : MonoBehaviour
     private void OnDestroy()
     {
        BeatManager.OnGameStarted -= GameStarted;
-       BeatManager.OnGamePaused -= GamePaused;
+        BeatManager.OnGamePaused -= GamePaused;
     }
 
     public PlayerController GetPlayer()
