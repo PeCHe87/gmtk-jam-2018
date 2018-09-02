@@ -8,4 +8,6 @@ public class ScriptableCombo : ScriptableObject
     public string beats;
     [Tooltip("The key of the action to perform when combo is successfully completed")]
     public ActionType.Type keyAction;
+    [Tooltip("Audio to play when performs the action")]
+    public AudioClip[] clipsFeedback;
 }

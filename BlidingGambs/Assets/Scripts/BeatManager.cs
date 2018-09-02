@@ -9,7 +9,7 @@ public class BeatManager : MonoBehaviour
     public System.Action<char> OnBeat;
 
     [SerializeField] private bool _gameStarted = false;
-    [SerializeField] private Text _txtHigh, _txtLow; // _txtHighInput, _txtLowInput;
+    [SerializeField] private Text _txtHigh, _txtLow;
     [SerializeField] private GameObject _btnStart, _btnPause;
     [SerializeField] private bool _showLow = true;
     [SerializeField] private float _timeToHideBeat = 0.5f;
@@ -31,7 +31,6 @@ public class BeatManager : MonoBehaviour
     private float phase = 0.0F;
     private double sampleRate = 0.0F;
     private int accent;
-    private bool running = false;
     private bool showTone = false;
 
     public void StartGame()
@@ -62,17 +61,12 @@ public class BeatManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        //_txtHighInput.color = Color.black;
-        //_txtLowInput.color = Color.black;
-
         PauseGame();
-
 
         accent = signatureHi;
         double startTick = AudioSettings.dspTime;
         sampleRate = AudioSettings.outputSampleRate;
         nextTick = startTick * sampleRate;
-        running = true;
     }
 
     private void Update()

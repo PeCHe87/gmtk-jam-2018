@@ -45,7 +45,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         currentTimeToHideFeedback = _timeToHideFeedback;
     }
 
-    public void PositiveFeedback(int step)
+    public void PositiveFeedback(int step, AudioClip clip)
     {
         _sprBad.SetActive(false);
         _sprGoodL.SetActive(goodFeedback % 2 == 0);
@@ -67,7 +67,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         _sprBody.color = winnerColor;
     }
 
-    public void PerformCombo(ActionType.Type actionCombo)
+    public void PerformCombo(ScriptableCombo actionCombo)
     {
         _sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
@@ -77,7 +77,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         currentTimeToHideFeedback = _timeToHideComboFeedback;
 
-        switch (actionCombo)
+        switch (actionCombo.keyAction)
         {
             case ActionType.Type.DODGE_DOWN:
                 DodgeDown();

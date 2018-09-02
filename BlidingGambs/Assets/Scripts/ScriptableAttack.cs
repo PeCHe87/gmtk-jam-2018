@@ -15,4 +15,15 @@ public class ScriptableAttack : ScriptableObject
 
     [Tooltip("Ammount of high beats of tolerance for the player to perform the correct combo")]
     public int toleranceBeats;
+
+    public ActionType.Type action;
+
+    [Tooltip("Audio to play when performs the action")]
+    public AudioClip clipHit;
+
+    [Tooltip("Audio to play before performing the action")]
+    public AudioClip clipSwoosh;
+
+    [Tooltip("Audio to play when it starts to prepare the attack")]
+    public AudioClip clipPre;
 }

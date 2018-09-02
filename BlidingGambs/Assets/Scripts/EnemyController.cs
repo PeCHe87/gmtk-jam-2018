@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : EntityController
 {
     [SerializeField] private GameController _gameController;
-
     [Tooltip("List of possibles attacks to perform")]
     [SerializeField] private List<ScriptableAttack> _attacks;
     [SerializeField] private bool _canDebug = false;

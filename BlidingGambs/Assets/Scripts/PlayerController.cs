@@ -63,8 +63,6 @@ public class PlayerController : EntityController
 
             currentComboStep++;
 
-            //TODO: feedback
-
             //Check if combo was completed
             CheckComboCompleted(); 
         }
@@ -106,7 +104,13 @@ public class PlayerController : EntityController
             if (match == 0)
             {
                 Debug.Log("<b><color=green>GOOD!!</color></b> - " + ((silence) ? "Silence" : "Action") + ", beat: " + currentBeat + ", current combo: " + currentCombo.ToString());
-                OnGoodComboStep(currentCombo.Length);
+
+                if (!silence)
+                {
+                    //If it isn't the last step
+                    if (currentCombo.Length < combo.beats.Length)
+                        OnGoodComboStep(currentCombo.Length, combo.clipsFeedback[currentComboStep]);
+                }
             }
 
             if (match == 0)
@@ -130,7 +134,7 @@ public class PlayerController : EntityController
                 Debug.Log("<b><i><color=magenta>COMBOOOOOOOO!!!!</color></i></b> Action: " + combo.keyAction);
 
                 //Reset current step and feedback fo combo completed
-                SuccessfullCombo(combo.keyAction);
+                SuccessfullCombo(combo);
             }
         }
     }
@@ -158,7 +162,7 @@ public class PlayerController : EntityController
         {
             if (CheckComboStep(true))
             {
-                currentComboStep++;
+                //currentComboStep++;
 
                 //TODO: feedback
 
@@ -180,19 +184,23 @@ public class PlayerController : EntityController
         comboStarted = false;
 
         currentCombo.Remove(0, currentCombo.Length);
+
+        currentComboStep = 0;
     }
 
-    private void SuccessfullCombo(ActionType.Type actionCombo)
+    private void SuccessfullCombo(ScriptableCombo actionCombo)
     {
         //Reset action started
         comboStarted = false;
+
+        currentComboStep = 0;
 
         currentCombo.Remove(0, currentCombo.Length);
 
         StartCoroutine(ShowComboCompleteFeedback(actionCombo));
     }
 
-    private IEnumerator ShowComboCompleteFeedback(ActionType.Type actionCombo)
+    private IEnumerator ShowComboCompleteFeedback(ScriptableCombo actionCombo)
     {
         yield return new WaitForSeconds(_timeDelayBeforeComboComplete);
 

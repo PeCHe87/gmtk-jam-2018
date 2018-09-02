@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,4 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboName: Down
   beats: HlH
-  keyAction: Skip Kick!
+  keyAction: 0
+  clipsFeedback:
+  - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
+  - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}

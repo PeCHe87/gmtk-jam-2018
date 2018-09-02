@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class EntityController : MonoBehaviour
 {
-    public Action<int> OnGoodComboStep;
+    #region Events
+    public Action<int, AudioClip> OnGoodComboStep;
     public Action OnBadComboStep;
     public Action OnLoose;
     public Action OnWin;
-    public Action<ActionType.Type> OnComboComplete;
+    public Action<ScriptableCombo> OnComboComplete;
+    #endregion
 }
