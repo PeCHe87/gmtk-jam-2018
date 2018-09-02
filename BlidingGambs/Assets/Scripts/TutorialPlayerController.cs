@@ -12,10 +12,10 @@ public class TutorialPlayerController : PlayerController {
     private void FixedUpdate()
     {
 
-        if (!_dodgeUpCheck.IsActive() && performingCombo != null && performingCombo.keyAction == ActionType.Type.DODGE_UP)
+        if (!_dodgeUpCheck.IsActive() && performingCombo != null && performingCombo.keyAction == ActionType.Type.DODGE_DOWN)
             _dodgeUpCheck.enabled = true;
 
-        if (!_dodgeDownCheck.IsActive() && performingCombo != null && performingCombo.keyAction == ActionType.Type.DODGE_DOWN)
+        if (!_dodgeDownCheck.IsActive() && performingCombo != null && performingCombo.keyAction == ActionType.Type.DODGE_UP)
             _dodgeDownCheck.enabled = true;
 
         if (_dodgeUpCheck.IsActive() && _dodgeDownCheck.IsActive())
