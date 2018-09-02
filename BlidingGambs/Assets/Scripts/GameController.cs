@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Sprite _sprFloorA;
     [SerializeField] private Sprite _sprFloorB;
 
-    private BeatManager _beatManager;
+    protected BeatManager _beatManager;
     private float currentTime = 0;
     private bool gameStarted = false;
     private bool delayActive = false;
@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
     private int indexBeat = -1;
     private bool changeFloor = false;
 
-    private void Awake() 
+    protected void Awake() 
     {
         _beatManager = GetComponent<BeatManager>();
         _beatManager.OnBeat += NewBeat;
@@ -34,7 +34,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        enemy.Init(this);
+        if (enemy != null)
+            enemy.Init(this);
     }
 
     private void Update()
@@ -80,7 +81,7 @@ public class GameController : MonoBehaviour
             changeFloor = true;
     }
 
-    private void GameStarted()
+    protected void GameStarted()
     {
         gameStarted = true;
     }
