@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: ComboDodgeUp
   m_EditorClassIdentifier: 
   comboName: UP
-  beats: HLHL
+  beats: HlHlhLH
   keyAction: 1
   clipsFeedback:
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}

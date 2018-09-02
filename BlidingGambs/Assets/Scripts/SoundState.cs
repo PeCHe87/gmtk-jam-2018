@@ -22,7 +22,7 @@ public class SoundState : MonoBehaviour
         _target.OnAttack += Attack;
     }
 
-    private void GoodComboStep(int step, AudioClip clip)
+    private void GoodComboStep(int step, AudioClip clip, int comboType)
     {
         Play(clip);
     }
@@ -32,7 +32,7 @@ public class SoundState : MonoBehaviour
         Play(combo.clipBadStep);
     }
 
-    private void PerformCombo(ScriptableCombo combo)
+    private void PerformCombo(ScriptableCombo combo, int step)
     {
         int clipIndex = combo.clipsFeedback.Length - 1;
 

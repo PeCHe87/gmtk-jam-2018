@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: ComboDodgeDown
   m_EditorClassIdentifier: 
   comboName: Down
-  beats: HlH
+  beats: HlHlH
   keyAction: 0
   clipsFeedback:
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
