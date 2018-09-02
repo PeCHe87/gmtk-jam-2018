@@ -31,6 +31,7 @@ public class PlayerController : EntityController
     private bool isAbleToPerformActions = true;
     private float timePerformingComboRemains = 0;
     private float timeToRecoverAfterGetDamage = 0;
+    private bool isDead = false;
 
     public HealthController Health { get { return healthController; } }
 
@@ -89,6 +90,7 @@ public class PlayerController : EntityController
         GameController.OnGameTimeComplete += Win;
 
         healthController = GetComponent<HealthController>();
+        healthController.OnDead += Dead;
 
         currentCombo = new StringBuilder();
 
@@ -101,6 +103,9 @@ public class PlayerController : EntityController
 
     private void Update()
     {
+        if (isDead)
+            return;
+
         //It is waiting to recover after getting damage
         if (timeToRecoverAfterGetDamage > 0)
         {
@@ -126,6 +131,8 @@ public class PlayerController : EntityController
             {
                 timePerformingComboRemains = 0;
                 isAbleToPerformActions = true;
+
+                OnIdle();
 
                 Debug.Log("<color=green>Player</color> just finished performing <color=yellow><b>combo</b></color>");
             }
@@ -204,7 +211,7 @@ public class PlayerController : EntityController
                 {
                     //If it isn't the last step
                     if (currentCombo.Length < combo.beats.Length)
-                        OnGoodComboStep(currentCombo.Length, combo.clipsFeedback[currentComboStep]);
+                        OnGoodComboStep(currentComboStep, combo.clipsFeedback[currentComboStep], (combo.keyAction == ActionType.Type.DODGE_DOWN) ? 0 : 1);//OnGoodComboStep(currentCombo.Length, combo.clipsFeedback[currentComboStep], (combo.keyAction == ActionType.Type.DODGE_DOWN)?0:1);
                 }
             }
 
@@ -227,7 +234,7 @@ public class PlayerController : EntityController
             if (currentCombo.ToString().Equals(combo.beats))
             {
                 Debug.Log("<b><i><color=magenta>COMBOOOOOOOO!!!!</color></i></b> Action: " + combo.keyAction);
-
+                 
                 //Reset current step and feedback fo combo completed
                 SuccessfullCombo(combo);
             }
@@ -310,7 +317,7 @@ public class PlayerController : EntityController
 
         performingCombo = actionCombo;
 
-        currentComboStep = 0;
+        //currentComboStep = 0;
 
         currentCombo.Remove(0, currentCombo.Length);
 
@@ -325,7 +332,9 @@ public class PlayerController : EntityController
     {
         yield return new WaitForSeconds(_timeDelayBeforeComboComplete);
 
-        OnComboComplete(actionCombo);
+        OnComboComplete(actionCombo, currentComboStep-1);
+
+        currentComboStep = 0;
     }
 
     private void Win()
@@ -350,11 +359,21 @@ public class PlayerController : EntityController
         isAbleToPerformActions = true;
     }
 
+    private void Dead()
+    {
+        Debug.Log("<b><color=yellow>Player::Dead</color></b>");
+
+        isDead = true;
+
+        OnLose();
+    }
+
     private void OnDestroy()
     {
         InputController.OnActionKeyPressed -= Action;
         _beatManager.OnBeat -= NewBeat;
         GameController.OnGameTimeComplete -= Win;
+        healthController.OnDead -= Dead;
     }
 
     public bool PerformedSucessfulCombo()

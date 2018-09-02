@@ -2,6 +2,8 @@
 
 public class GraphicStatePlayer : MonoBehaviour, IGraphicState 
 {
+    [SerializeField] private Animator _anim;
+
     [SerializeField] private float _timeToHideFeedback;
     //[SerializeField] private float _timeToHideComboFeedback;
 
@@ -25,16 +27,20 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
     {
         Debug.Log("Player Action: <b><color=cyan>IDLE</color></b>");
 
-        _sprBad.SetActive(false);
+        /*_sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
         _sprGoodR.SetActive(false);
 
-        _sprBody.color = Color.white;
+        _sprBody.color = Color.white;*/
+
+        _anim.SetTrigger("Idle");
     }
 
     public void LoseFeedback()
     {
-        _sprBad.SetActive(false);
+        Debug.Log("Player Action: <b><color=red>DEAD</color></b>");
+
+        /*_sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
         _sprGoodR.SetActive(false);
 
@@ -42,23 +48,29 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         goodFeedback = 0;
 
-        currentTimeToHideFeedback = _timeToHideFeedback;
+        currentTimeToHideFeedback = _timeToHideFeedback;*/
+
+        _anim.SetTrigger("Idle");
+        _anim.SetBool("IsDead", true);
     }
 
     public void NegativeFeedback(ScriptableCombo combo)
     {
-        _sprBad.SetActive(true);
+        /*_sprBad.SetActive(true);
         _sprGoodL.SetActive(false);
         _sprGoodR.SetActive(false);
 
         _sprBody.color = Color.white;
 
-        currentTimeToHideFeedback = _timeToHideFeedback;
+        currentTimeToHideFeedback = _timeToHideFeedback;*/
+
+        _anim.ResetTrigger("Idle");
+        _anim.SetTrigger("ComboMiss");
     }
 
-    public void PositiveFeedback(int step, AudioClip clip)
+    public void PositiveFeedback(int step, AudioClip clip, int comboType)
     {
-        _sprBad.SetActive(false);
+        /*_sprBad.SetActive(false);
         _sprGoodL.SetActive(goodFeedback % 2 == 0);
         _sprGoodR.SetActive(goodFeedback % 2 != 0);
 
@@ -66,7 +78,14 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         _sprBody.color = Color.white;
 
-        currentTimeToHideFeedback = _timeToHideFeedback;
+        currentTimeToHideFeedback = _timeToHideFeedback;*/
+
+        Debug.Log("Player::PositiveFeedback -- step: " + step);
+
+        _anim.ResetTrigger("Idle");
+        _anim.SetInteger("ComboStep", step);
+        _anim.SetTrigger("ComboGood");
+        _anim.SetInteger("ComboType", comboType);
     }
 
     public void WinFeedback()
@@ -78,7 +97,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         _sprBody.color = winnerColor;
     }
 
-    public void PerformCombo(ScriptableCombo actionCombo)
+    public void PerformCombo(ScriptableCombo actionCombo, int step)
     {
         _sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
@@ -88,7 +107,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         currentTimeToHideFeedback = ((PlayerController)entityController).TimePerformingCombo;   //_timeToHideComboFeedback;
 
-        switch (actionCombo.keyAction)
+        /*switch (actionCombo.keyAction)
         {
             case ActionType.Type.DODGE_DOWN:
                 DodgeDown();
@@ -97,7 +116,14 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
             case ActionType.Type.DODGE_UP:
                 DodgeUp();
                 break;
-        }
+        }*/
+
+        Debug.Log("Player::ComboComplete -- step: " + step);
+
+        _anim.ResetTrigger("Idle");
+        _anim.SetInteger("ComboStep", step);
+        _anim.SetTrigger("ComboGood");
+        _anim.SetInteger("ComboType", (actionCombo.keyAction == ActionType.Type.DODGE_DOWN)?0:1);
     }
 
     public void Initialize()
@@ -167,11 +193,13 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         if (attack.action == ActionType.Type.KICK)
         {
-            //TODO: Show damage by Kick animation
+            //Show damage by Kick animation
+            _anim.SetTrigger("DamageKick");
         }
         else if (attack.action == ActionType.Type.PUNCH)
         {
-            //TODO: show damage by Punch animation
+            //Show damage by Punch animation
+            _anim.SetTrigger("DamagePunch");
         }
     }
 
