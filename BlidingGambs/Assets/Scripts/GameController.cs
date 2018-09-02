@@ -16,8 +16,10 @@ public class GameController : MonoBehaviour
     {
         _beatManager = GetComponent<BeatManager>();
 
-        BeatManager.OnGameStarted -= GameStarted;
-        BeatManager.OnGamePaused -= GamePaused;
+        BeatManager.OnGameStarted += GameStarted;
+        BeatManager.OnGamePaused += GamePaused;
+
+        currentTime = _gameTotalTime;
     }
 
     private void Start()

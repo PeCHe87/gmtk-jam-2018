@@ -86,10 +86,12 @@ public class EnemyController : EntityController
         {
             _preparationBeats--;
 
-            if (_preparationBeats == 0)
+            if (_preparationBeats <= 0)
                 PerformAttack();
             else
+            {
                 Debug.Log("Preparing attack <color=orange>" + currentAttack.name + "</color>: " + _preparationBeats + " beats left");
+            }
         }
         else
         {
@@ -136,25 +138,30 @@ public class EnemyController : EntityController
 
     private void PerformAttack()
     {
-        Debug.Log("Performing attack " + currentAttack.name + ": damage dealt " + currentAttack.damage);
-
         bool playerIsPerformingCombo = player.IsPerformingComboToAvoidAttack(currentAttack);
 
         if (_toleranceBeats > 0 && playerIsPerformingCombo)
         {
             _toleranceBeats--;
+
+            Debug.Log("Performing attack and player is performing combo: " + currentAttack.name + ": tolerance beats left: " + _toleranceBeats);
+
             return;
         }
 
         //Update graphic state (based Action selected)
         if (!playerIsPerformingCombo)
         {
+            Debug.Log("Enemy::Performing <color=red>Successfull</color> attack " + currentAttack.name + ": damage dealt " + currentAttack.damage);
+
             OnAttack(currentAttack);
 
             player.Damage(currentAttack.damage, currentAttack);
         }
         else
         {
+            Debug.Log("Enemy::Performing <color=yellow>Miss</color> attack " + currentAttack.name);
+
             //SFX swoosh (miss). Save state of miss attack to show an animation after attacking based on the attack made
             OnMissAttack(currentAttack);
         }

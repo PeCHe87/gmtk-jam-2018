@@ -3,7 +3,7 @@
 public class GraphicStatePlayer : MonoBehaviour, IGraphicState 
 {
     [SerializeField] private float _timeToHideFeedback;
-    [SerializeField] private float _timeToHideComboFeedback;
+    //[SerializeField] private float _timeToHideComboFeedback;
 
     [Header("Color feedbacks")]
     [SerializeField] private Color comboColor = Color.magenta;
@@ -21,6 +21,17 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
     private int goodFeedback = 0;
 
     #region Implementation of Graphic State interface
+    public void Idle()
+    {
+        Debug.Log("Player Action: <b><color=cyan>IDLE</color></b>");
+
+        _sprBad.SetActive(true);
+        _sprGoodL.SetActive(false);
+        _sprGoodR.SetActive(false);
+
+        _sprBody.color = Color.white;
+    }
+
     public void LooseFeedback()
     {
         _sprBad.SetActive(false);
@@ -75,7 +86,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         _sprBody.color = comboColor;
 
-        currentTimeToHideFeedback = _timeToHideComboFeedback;
+        currentTimeToHideFeedback = ((PlayerController)entityController).TimePerformingCombo;   //_timeToHideComboFeedback;
 
         switch (actionCombo.keyAction)
         {
@@ -148,10 +159,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         Debug.Log("Player Action: <b><color=magenta>UP</color></b>");
     }
 
-    private void Idle()
-    {
-        Debug.Log("Player Action: <b><color=cyan>IDLE</color></b>");
-    }
+    
 
     private void ReceiveDamage(ScriptableAttack attack)
     {
