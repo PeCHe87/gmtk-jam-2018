@@ -11,10 +11,6 @@ public class BeatManager : MonoBehaviour
     public static System.Action OnGamePaused;
 
     [SerializeField] private bool _gameStarted = false;
-    [SerializeField] private Text _txtHigh, _txtLow;
-    [SerializeField] private GameObject _btnStart, _btnPause;
-    [SerializeField] private bool _showLow = true;
-    [SerializeField] private float _timeToHideBeat = 0.5f;
     [SerializeField] private float _delayBeat = 250;
 
     private bool isHigh = true;
@@ -24,7 +20,7 @@ public class BeatManager : MonoBehaviour
     public float DelayBeat { get { return _delayBeat; } }
 
     [Tooltip("Time between beats (BPM)")]
-    public double bpm = 140.0F;
+    public double bpm = 120.0F;
     public float gain = 0.5F;
     public int signatureHi = 4;
     public int signatureLo = 4;
@@ -38,29 +34,21 @@ public class BeatManager : MonoBehaviour
     public void StartGame()
     {
         _gameStarted = true;
-        _txtHigh.text = string.Empty;
-        _txtLow.text = string.Empty;
-
-        _btnPause.SetActive(true);
-        _btnStart.SetActive(false);
 
         audioSource.Play();
 
-        OnGameStarted();
+        if (OnGameStarted != null)
+            OnGameStarted();
     }
 
     public void PauseGame()
     {
         _gameStarted = false;
-        _txtHigh.text = string.Empty;
-        _txtLow.text = string.Empty;
-
-        _btnPause.SetActive(false);
-        _btnStart.SetActive(true);
 
         audioSource.Pause();
 
-        OnGamePaused();
+        if (OnGamePaused != null)
+            OnGamePaused();
     }
 
     private void Start()
@@ -77,36 +65,7 @@ public class BeatManager : MonoBehaviour
 
     private void Update()
     {
-        _txtHigh.text = (accent % 2 == 1) ? "HI" : string.Empty;
-        _txtLow.text = (accent % 2 == 0) ? "LOW" : string.Empty;
-
         currentTime -= Time.deltaTime;
-        if (currentTime <= 0)
-        {
-            //_txtHighInput.color = Color.black;
-            //_txtLowInput.color = Color.black;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShowFeedback(accent);
-        }
-    }
-
-    private void ShowFeedback(int tick)
-    {
-        currentTime = _timeToHideBeat;
-        //_txtHighInput.color = (tick == 1)?Color.green:((tick == 2)?Color.red:Color.black);
-        //_txtLowInput.color = (tick == 3) ? Color.green : ((tick == 4) ? Color.red : Color.black);
-    }
-
-    private IEnumerator HideTone()
-    {
-        yield return new WaitForSeconds(_timeToHideBeat);
-
-        _txtHigh.text = string.Empty;
-        _txtLow.text = string.Empty;
-
     }
 
     private void OnAudioFilterRead(float[] data, int channels)
@@ -118,19 +77,23 @@ public class BeatManager : MonoBehaviour
         double sample = AudioSettings.dspTime * sampleRate;
         int dataLen = data.Length / channels;
         int n = 0;
+
         while (n < dataLen)
         {
             float x = gain * amp * Mathf.Sin(phase);
             int i = 0;
+
             while (i < channels)
             {
                 data[n * channels + i] += x;
                 i++;
             }
+
             while (sample + n >= nextTick)
             {
                 nextTick += samplesPerTick;
                 amp = 1.0F;
+
                 if (++accent > signatureHi)
                 {
                     accent = 1;
@@ -143,6 +106,7 @@ public class BeatManager : MonoBehaviour
                 OnBeat((accent % 2 == 0)?'L':'H');
 
             }
+
             phase += amp * 0.3F;
             amp *= 0.993F;
             n++;

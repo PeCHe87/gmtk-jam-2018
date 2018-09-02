@@ -26,7 +26,7 @@ public class PlayerController : EntityController
     private bool delayActive = false;
     private float delayBeat;
     private int currentBeatsRemainingAfterCombo = 0;
-    private ScriptableCombo performingCombo = null;
+    protected ScriptableCombo performingCombo = null;
     private HealthController healthController;
     private bool isAbleToPerformActions = true;
     private float timePerformingComboRemains = 0;
