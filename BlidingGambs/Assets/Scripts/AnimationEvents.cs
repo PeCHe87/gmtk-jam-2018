@@ -2,6 +2,11 @@
 
 public class AnimationEvents : MonoBehaviour
 {
+    public void CrashPlayerPreDefeat()
+    {
+        //TODO: play SFX of player crashing floor
+    }
+
     public void EndPlayerPreDefeat()
     {
         //TODO: stop main music

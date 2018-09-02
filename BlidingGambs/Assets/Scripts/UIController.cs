@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Image _fillPlayer;
     [SerializeField] private Image _fillEnemy;
     [SerializeField] private GameObject _panelGameOver;
+    [SerializeField] private GameObject _panelGameWin;
 
     private PlayerController player;
     private EnemyController enemy;
@@ -19,6 +20,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         _panelGameOver.SetActive(false);
+        _panelGameWin.SetActive(false);
 
         UpdateTime();
 
@@ -34,6 +36,8 @@ public class UIController : MonoBehaviour
 
         BeatManager.OnGameStarted += GameStarted;
         BeatManager.OnGamePaused += GamePaused;
+
+        GameController.OnGameTimeComplete += ShowGameWin;
     }
 
     private void Update()
@@ -96,6 +100,12 @@ public class UIController : MonoBehaviour
         _panelGameOver.SetActive(true);
     }
 
+    private void ShowGameWin()
+    {
+        _panelGameWin.SetActive(true);
+        gameStarted = false;
+    }
+
     private void OnDestroy()
     {
         player.Health.OnDamage -= PlayerDamage;
@@ -103,5 +113,7 @@ public class UIController : MonoBehaviour
 
         BeatManager.OnGameStarted -= GameStarted;
         BeatManager.OnGamePaused -= GamePaused;
+
+        GameController.OnGameTimeComplete -= ShowGameWin;
     }
 }

@@ -25,14 +25,14 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
     {
         Debug.Log("Player Action: <b><color=cyan>IDLE</color></b>");
 
-        _sprBad.SetActive(true);
+        _sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
         _sprGoodR.SetActive(false);
 
         _sprBody.color = Color.white;
     }
 
-    public void LooseFeedback()
+    public void LoseFeedback()
     {
         _sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
@@ -114,7 +114,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         entityController.OnGoodComboStep += PositiveFeedback;
         entityController.OnBadComboStep += NegativeFeedback;
-        entityController.OnLoose += LooseFeedback;
+        entityController.OnLose += LoseFeedback;
         entityController.OnWin += WinFeedback;
         entityController.OnComboComplete += PerformCombo;
         entityController.OnReceiveDamage += ReceiveDamage;
@@ -184,7 +184,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
     {
         entityController.OnGoodComboStep -= PositiveFeedback;
         entityController.OnBadComboStep -= NegativeFeedback;
-        entityController.OnLoose -= LooseFeedback;
+        entityController.OnLose -= LoseFeedback;
         entityController.OnWin -= WinFeedback;
         entityController.OnComboComplete -= PerformCombo;
         entityController.OnReceiveDamage -= ReceiveDamage;

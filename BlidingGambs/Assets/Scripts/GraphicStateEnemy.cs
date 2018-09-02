@@ -26,17 +26,20 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         Debug.Log("<color=orange>Enem</color>::Idle");
     }
 
-    public void LooseFeedback()
+    public void LoseFeedback()
     {
-        _sprBad.SetActive(false);
+        /*_sprBad.SetActive(false);
         _sprGoodL.SetActive(false);
         _sprGoodR.SetActive(false);
-
+        */
         _sprBody.color = looserColor;
 
         goodFeedback = 0;
 
         currentTimeToHideFeedback = _timeToHideFeedback;
+
+        //TODO: Enemy lose feedback
+        Debug.Log("<color=red>Enemy LOSE!</color>");
     }
 
     public void NegativeFeedback(ScriptableCombo combo)
@@ -82,6 +85,7 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         entityController.OnMissAttack += MissAttack;
         entityController.OnPreAttack += PreAttack;
         entityController.OnIdle += Idle;
+        entityController.OnLose += LoseFeedback;
     }
 
     private void Start()
@@ -149,5 +153,6 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         entityController.OnMissAttack -= MissAttack;
         entityController.OnPreAttack -= PreAttack;
         entityController.OnIdle -= Idle;
+        entityController.OnLose -= LoseFeedback;
     }
 }

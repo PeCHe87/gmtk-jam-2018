@@ -318,8 +318,8 @@ MonoBehaviour:
   _beatManager: {fileID: 0}
   _timeDelayBeforeComboComplete: 0
   _delayToBackIdle: 0.5
-  _timePerformingCombo: 1
-  _timeToRecoverAfterDamaging: 1
+  _timePerformingCombo: 5
+  _timeToRecoverAfterDamaging: 3
 --- !u!114 &114422769714668040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -332,7 +332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeToHideFeedback: 0.5
-  _timeToHideComboFeedback: 1
   comboColor: {r: 1, g: 0, b: 1, a: 1}
   winnerColor: {r: 0, g: 1, b: 0, a: 1}
   looserColor: {r: 1, g: 0, b: 0, a: 1}
@@ -384,8 +383,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1337270605
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.8235294, g: 0.054498274, b: 0.2613413, a: 1}
@@ -428,8 +427,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1337270605
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.42044887, g: 0.72794116, b: 0.27297795, a: 1}
@@ -472,8 +471,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1337270605
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.42044887, g: 0.72794116, b: 0.27297795, a: 1}
@@ -516,8 +515,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1337270605
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
