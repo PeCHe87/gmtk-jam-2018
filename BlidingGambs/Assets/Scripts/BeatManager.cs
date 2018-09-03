@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,12 @@ public class BeatManager : MonoBehaviour
     [SerializeField] private bool _gameStarted = false;
     [SerializeField] private Text _txtHigh, _txtLow;
     [SerializeField] private GameObject _btnStart, _btnPause;
+
+    internal void SetMainSong(AudioClip clipMainMusic)
+    {
+        audioSource.clip = clipMainMusic;
+    }
+
     [SerializeField] private bool _showLow = true;
     [SerializeField] private float _timeToHideBeat = 0.5f;
     [SerializeField] private float _delayBeat = 250;
@@ -63,10 +70,13 @@ public class BeatManager : MonoBehaviour
         OnGamePaused();
     }
 
-    private void Start()
+    private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+    }
 
+    private void Start()
+    {
         PauseGame();
 
         accent = signatureHi;

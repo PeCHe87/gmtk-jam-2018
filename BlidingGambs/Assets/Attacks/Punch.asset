@@ -17,6 +17,6 @@ MonoBehaviour:
   recoveryBeats: 5
   toleranceBeats: 2
   action: 2
-  clipHit: {fileID: 8300000, guid: a1465e2e8e3043d44a0133fd00c44e0d, type: 3}
-  clipSwoosh: {fileID: 8300000, guid: 836e3667f73400345bac164bfcd639a5, type: 3}
-  clipPre: {fileID: 8300000, guid: 6b7630f0f067f9b49aa948cc184f264c, type: 3}
+  clipHit: {fileID: 8300000, guid: b47518dceaf41d743959ff4ed179a009, type: 3}
+  clipSwoosh: {fileID: 8300000, guid: c227f13d2338e294ca815906f5c048dd, type: 3}
+  clipPre: {fileID: 8300000, guid: df39e83b996121c4b8757ed50977e875, type: 3}

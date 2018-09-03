@@ -1,31 +1,48 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AnimationEvents : MonoBehaviour
 {
+    public static Action OnPlayerFall;
+    public static Action OnStopMainMusic;
+    public static Action OnEnemyFall;
+    public static Action OnPlayerWin;
+    public static Action OnPlayPuke;
+    public static Action OnGameOverAfterFalling;
+
     public void CrashPlayerPreDefeat()
     {
-        //TODO: play SFX of player crashing floor
+        //Play SFX of player crashing floor
+        OnPlayerFall();
     }
 
     public void EndPlayerPreDefeat()
     {
-        //TODO: stop main music
-
-        //TODO: play one shot a SFX to define (Turn table) 
+        //Stop main music and play one shot a SFX to define (Turn table) 
+        OnStopMainMusic();
     }
 
     public void CrashEnemyPreDefeat()
     {
-        //TODO: play SFX of enemy crashing
+        //Play SFX of enemy crashing
+        OnEnemyFall();
     }
 
     public void EndEnemyPreDefeat()
     {
-        //TODO: player has to play its winner animation
+        //Player has to play its winner animation
+        OnPlayerWin();
     }
 
     public void PreDefeatEnemyPuking()
     {
-        //TODO: play SFX of puke
+        //Play SFX of puke
+        OnPlayPuke();
+    }
+
+    public void PlayerPreDefeatEnd()
+    {
+        //Game over
+        OnGameOverAfterFalling();
     }
 }
