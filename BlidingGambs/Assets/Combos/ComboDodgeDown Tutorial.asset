@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c7e2a9b3f3304f46a28327178bc735c, type: 3}
-  m_Name: ComboDodgeDown
+  m_Name: ComboDodgeDown Tutorial
   m_EditorClassIdentifier: 
   comboName: Down
   beats: HlHlH
@@ -17,6 +17,6 @@ MonoBehaviour:
   clipsFeedback:
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
   - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
-  beatsFreezingAfterCombo: 4
+  beatsFreezingAfterCombo: 0
   enemyAttackBlocked: {fileID: 11400000, guid: 8839b36a8fea04da3a8833f9ae43f9f4, type: 2}
   clipBadStep: {fileID: 8300000, guid: 52c7d058e33b8a1458cb722c2d8c23e1, type: 3}
