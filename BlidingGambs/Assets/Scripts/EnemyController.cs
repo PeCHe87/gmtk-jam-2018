@@ -22,6 +22,7 @@ public class EnemyController : EntityController
     private bool playerIsDead = false;
     private HealthController healthController;
     private int firstAttacksDone = 0;
+    private bool isDead = false;
 
     public void Init(GameController gameController)
     {
@@ -47,6 +48,7 @@ public class EnemyController : EntityController
     private void Awake()
     {
         healthController = GetComponent<HealthController>();
+        GameController.OnGameTimeComplete += Lose;
     }
 
     private void Start()
@@ -66,14 +68,25 @@ public class EnemyController : EntityController
         OnWin();
     }
 
+    private void Lose()
+    {
+        isDead = true;
+
+        OnLose();
+    }
+
     private void OnDestroy()
     {
         _beatManager.OnBeat -= NewBeat;
         player.Health.OnDead -= PlayerDead;
+        GameController.OnGameTimeComplete -= Lose;
     }
 
     private void Update()
     {
+        if (isDead)
+            return;
+
         if (playerIsDead)
             return;
 

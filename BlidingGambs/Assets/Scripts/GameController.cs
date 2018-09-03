@@ -8,13 +8,23 @@ public class GameController : MonoBehaviour
     [SerializeField] private EnemyController enemy;
     [SerializeField] private int _gameTotalTime = 60;
 
-    private BeatManager _beatManager;
+    [Header("Floor")]
+    [SerializeField] private SpriteRenderer _sprFloor;
+    [SerializeField] private Sprite _sprFloorA;
+    [SerializeField] private Sprite _sprFloorB;
+
+    protected BeatManager _beatManager;
     private float currentTime = 0;
     private bool gameStarted = false;
+    private bool delayActive = false;
+    private char currentBeat = ' ';
+    private int indexBeat = -1;
+    private bool changeFloor = false;
 
-    private void Awake() 
+    protected void Awake() 
     {
         _beatManager = GetComponent<BeatManager>();
+        _beatManager.OnBeat += NewBeat;
 
         BeatManager.OnGameStarted += GameStarted;
         BeatManager.OnGamePaused += GamePaused;
@@ -24,7 +34,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        enemy.Init(this);
+        if (enemy != null)
+            enemy.Init(this);
     }
 
     private void Update()
@@ -41,10 +52,36 @@ public class GameController : MonoBehaviour
 
                 OnGameTimeComplete();
             }
+
+            if (changeFloor)
+                ChangeFloor();
         }
     }
 
-    private void GameStarted()
+    private void ChangeFloor()
+    {
+        Sprite currentFloor = _sprFloor.sprite;
+
+        if (currentFloor == _sprFloorA)
+            _sprFloor.sprite = _sprFloorB;
+        else
+            _sprFloor.sprite = _sprFloorA;
+
+        changeFloor = false;
+    }
+
+    private void NewBeat(char beat)
+    {
+        if (!gameStarted)
+            return;
+
+        indexBeat++;
+
+        if (indexBeat % 2 == 0)
+            changeFloor = true;
+    }
+
+    protected void GameStarted()
     {
         gameStarted = true;
     }
