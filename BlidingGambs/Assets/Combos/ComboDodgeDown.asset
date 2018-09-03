@@ -15,8 +15,9 @@ MonoBehaviour:
   beats: HlHlH
   keyAction: 0
   clipsFeedback:
-  - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
-  - {fileID: 8300000, guid: ac00743cbdf1b5340be8f6217d81b61a, type: 3}
+  - {fileID: 8300000, guid: 2f774150db403cc4aa3c915fe7719912, type: 3}
+  - {fileID: 8300000, guid: 36113809922bc3f488139da712fe8046, type: 3}
+  - {fileID: 8300000, guid: 7782ae700c2a52842994418b99ccb7de, type: 3}
   beatsFreezingAfterCombo: 4
   enemyAttackBlocked: {fileID: 11400000, guid: 8839b36a8fea04da3a8833f9ae43f9f4, type: 2}
-  clipBadStep: {fileID: 8300000, guid: 52c7d058e33b8a1458cb722c2d8c23e1, type: 3}
+  clipBadStep: {fileID: 8300000, guid: 0f31c9f28b2ac0f4da37ff50ba6276c5, type: 3}

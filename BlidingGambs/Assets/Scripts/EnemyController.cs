@@ -49,6 +49,7 @@ public class EnemyController : EntityController
     {
         healthController = GetComponent<HealthController>();
         GameController.OnGameTimeComplete += Lose;
+        AnimationEvents.OnGameOverAfterFalling += EnemyWins;
     }
 
     private void Start()
@@ -65,7 +66,7 @@ public class EnemyController : EntityController
     {
         playerIsDead = true;
 
-        OnWin();
+        //OnWin();
     }
 
     private void Lose()
@@ -75,11 +76,17 @@ public class EnemyController : EntityController
         OnLose();
     }
 
+    private void EnemyWins()
+    {
+        OnWin();
+    }
+
     private void OnDestroy()
     {
         _beatManager.OnBeat -= NewBeat;
         player.Health.OnDead -= PlayerDead;
         GameController.OnGameTimeComplete -= Lose;
+        AnimationEvents.OnGameOverAfterFalling -= EnemyWins;
     }
 
     private void Update()
