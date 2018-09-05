@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +10,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private Image _fillEnemy;
     [SerializeField] private GameObject _panelGameOver;
     [SerializeField] private GameObject _panelGameWin;
+    [SerializeField] private Text _txtPreviousFight;
+    [SerializeField] private float _timeToShowNumber1, _timeToShowNumber2, _timeToShowNumber3, _timeToShowFight, _timeToHide;
+    [SerializeField] private Color _color1, _color2, _color3, _colorFight;
 
     private PlayerController player;
     private EnemyController enemy;
@@ -27,6 +28,7 @@ public class UIController : MonoBehaviour
         player = _gameController.GetPlayer();
         player.Health.OnDamage += PlayerDamage;
         player.Health.OnDead += PlayerDead;
+        AnimationEvents.OnPlayerFall += GameOver;
 
         InitPlayerHealth();
 
@@ -37,7 +39,7 @@ public class UIController : MonoBehaviour
         BeatManager.OnGameStarted += GameStarted;
         BeatManager.OnGamePaused += GamePaused;
 
-        GameController.OnGameTimeComplete += ShowGameWin;
+        AnimationEvents.OnEnemyDead += ShowGameWin;
     }
 
     private void Update()
@@ -77,6 +79,35 @@ public class UIController : MonoBehaviour
     private void GameStarted()
     {
         gameStarted = true;
+
+        StartCoroutine(ShowNumbers());
+    }
+
+    private IEnumerator ShowNumbers()
+    {
+        yield return new WaitForSeconds(_timeToShowNumber1);
+
+        _txtPreviousFight.color = _color1;
+        _txtPreviousFight.text = "1";
+
+        yield return new WaitForSeconds(_timeToShowNumber2);
+
+        _txtPreviousFight.color = _color2;
+        _txtPreviousFight.text = "2";
+
+        yield return new WaitForSeconds(_timeToShowNumber3);
+
+        _txtPreviousFight.color = _color3;
+        _txtPreviousFight.text = "3";
+
+        yield return new WaitForSeconds(_timeToShowFight);
+
+        _txtPreviousFight.color = _colorFight;
+        _txtPreviousFight.text = "Dance!";
+
+        yield return new WaitForSeconds(_timeToHide);
+
+        _txtPreviousFight.text = string.Empty;
     }
 
     private void GamePaused()
@@ -89,8 +120,11 @@ public class UIController : MonoBehaviour
         gameStarted = false;
 
         PlayerDamage(player.MaxHealth());
+    }
 
-        Debug.Log("<b>UI</b>: Player is Dead");
+    private void GameOver()
+    {
+        Debug.Log("<b>UI</b>: Player is Dead - GameOver");
 
         ShowGameOver();
     }
@@ -109,11 +143,13 @@ public class UIController : MonoBehaviour
     private void OnDestroy()
     {
         player.Health.OnDamage -= PlayerDamage;
-        player.Health.OnDead -= PlayerDead;
+        AnimationEvents.OnPlayerFall -= GameOver;
 
         BeatManager.OnGameStarted -= GameStarted;
         BeatManager.OnGamePaused -= GamePaused;
 
-        GameController.OnGameTimeComplete -= ShowGameWin;
+        player.Health.OnDead -= PlayerDead;
+
+        AnimationEvents.OnEnemyDead -= ShowGameWin;
     }
 }

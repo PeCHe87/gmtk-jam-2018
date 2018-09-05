@@ -32,11 +32,14 @@ public class PlayerController : EntityController
     private float timePerformingComboRemains = 0;
     private float timeToRecoverAfterGetDamage = 0;
     private bool isDead = false;
+    ScriptableAttack lastAttackReceived;
 
     public HealthController Health { get { return healthController; } }
 
     public void Damage(int damage, ScriptableAttack enemyAttack)
     {
+        lastAttackReceived = enemyAttack;
+
         //Update HealthController
         healthController.Damage(damage);
 
@@ -343,7 +346,7 @@ public class PlayerController : EntityController
 
         isAbleToPerformActions = false;
 
-        //Update graphic state with idle animation because it doesn't have anything more to do
+        //Update graphic state with idle animation because it doesn't have anything more to do until enemy falls
         OnIdle();
     }
 
@@ -365,7 +368,7 @@ public class PlayerController : EntityController
 
         isDead = true;
 
-        OnLose();
+        OnLose(lastAttackReceived);
     }
 
     private void OnDestroy()

@@ -10,6 +10,8 @@ public class MusicController : MonoBehaviour
     [SerializeField] private AudioClip _clipPlayerCrash;
     [SerializeField] private AudioClip _clipMainMusic;
     [SerializeField] private AudioClip _clipPublicOvation;
+    [SerializeField] private AudioClip _clipPlayerSpinning;
+    [SerializeField] private AudioClip _clipFightTimeout;
 
     private BeatManager beatManager;
 
@@ -20,6 +22,8 @@ public class MusicController : MonoBehaviour
         AnimationEvents.OnPlayerWin += PlayerWin;
         AnimationEvents.OnPlayPuke += EnemyPuke;
         AnimationEvents.OnStopMainMusic += StopMainMusic;
+        AnimationEvents.OnPlaySpinningSound += PlayPlayerSpinning;
+        GameController.OnGameTimeComplete += FightTimeout;
     }
 
     private void Start()
@@ -38,11 +42,13 @@ public class MusicController : MonoBehaviour
     private void EnemyFall()
     {
         //Play enemy fall
+        _audioSourceSFX.volume = 1.0f;
         _audioSourceSFX.PlayOneShot(_clipEnemyCrash);
     }
 
     private void PlayerWin()
     {
+        Debug.Log("🔉 - Ovation!");
         //Play public ovation
         _audioSourceSFX.PlayOneShot(_clipPublicOvation);
     }
@@ -62,6 +68,17 @@ public class MusicController : MonoBehaviour
         _audioSourceSFX.PlayOneShot(_clipWinScratching);
     }
 
+    private void PlayPlayerSpinning()
+    {
+        _audioSourceSFX.PlayOneShot(_clipPlayerSpinning);
+    }
+
+    private void FightTimeout()
+    {
+        _audioSourceSFX.volume = 0.1f;
+        _audioSourceSFX.PlayOneShot(_clipFightTimeout);
+    }
+
     private void OnDestroy()
     {
         AnimationEvents.OnPlayerFall -= PlayerFall;
@@ -69,5 +86,7 @@ public class MusicController : MonoBehaviour
         AnimationEvents.OnPlayerWin -= PlayerWin;
         AnimationEvents.OnPlayPuke -= EnemyPuke;
         AnimationEvents.OnStopMainMusic -= StopMainMusic;
+        AnimationEvents.OnPlaySpinningSound -= PlayPlayerSpinning;
+        GameController.OnGameTimeComplete -= FightTimeout;
     }
 }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class GameController : MonoBehaviour
         BeatManager.OnGameStarted += GameStarted;
         BeatManager.OnGamePaused += GamePaused;
 
+        enemy.OnWin += GameOver;
+
         currentTime = _gameTotalTime;
     }
 
@@ -52,10 +56,10 @@ public class GameController : MonoBehaviour
 
                 OnGameTimeComplete();
             }
-
-            if (changeFloor)
-                ChangeFloor();
         }
+
+        if (changeFloor)
+            ChangeFloor();
     }
 
     private void ChangeFloor()
@@ -72,8 +76,8 @@ public class GameController : MonoBehaviour
 
     private void NewBeat(char beat)
     {
-        if (!gameStarted)
-            return;
+        //if (!gameStarted)
+        //    return;
 
         indexBeat++;
 
@@ -83,6 +87,13 @@ public class GameController : MonoBehaviour
 
     protected void GameStarted()
     {
+        StartCoroutine(StartTimer());
+    }
+
+    private IEnumerator StartTimer()
+    {
+        yield return new WaitForSeconds(2);
+
         gameStarted = true;
     }
 
@@ -91,10 +102,16 @@ public class GameController : MonoBehaviour
         gameStarted = false;
     }
 
+    private void GameOver()
+    {
+        gameStarted = false;
+    }
+
     private void OnDestroy()
     {
-       BeatManager.OnGameStarted -= GameStarted;
+        BeatManager.OnGameStarted -= GameStarted;
         BeatManager.OnGamePaused -= GamePaused;
+        enemy.OnWin -= GameOver;
     }
 
     public PlayerController GetPlayer()

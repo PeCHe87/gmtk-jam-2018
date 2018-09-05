@@ -20,6 +20,7 @@ public class SoundState : MonoBehaviour
         _target.OnMissAttack += MissAttack;
         _target.OnPreAttack += PreAttack;
         _target.OnAttack += Attack;
+        _target.OnLose += Lose;
     }
 
     private void GoodComboStep(int step, AudioClip clip, int comboType)
@@ -51,7 +52,8 @@ public class SoundState : MonoBehaviour
 
     private void PreAttack(ScriptableAttack attack)
     {
-        PlayLoop(attack.clipPre);
+        if (attack.clipPre != null)
+            PlayLoop(attack.clipPre);
     }
 
     private void Attack(ScriptableAttack attack)
@@ -68,6 +70,13 @@ public class SoundState : MonoBehaviour
         _target.OnMissAttack -= MissAttack;
         _target.OnPreAttack -= PreAttack;
         _target.OnAttack -= Attack;
+        _target.OnLose -= Lose;
+    }
+
+    private void Lose(ScriptableAttack attack)
+    {
+        audioSource.loop = false;
+        audioSource.Stop();
     }
 
     public void Play(AudioClip clip)

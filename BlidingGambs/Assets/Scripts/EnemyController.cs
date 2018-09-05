@@ -73,7 +73,7 @@ public class EnemyController : EntityController
     {
         isDead = true;
 
-        OnLose();
+        OnLose(null);
     }
 
     private void EnemyWins()

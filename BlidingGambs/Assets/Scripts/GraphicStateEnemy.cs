@@ -28,13 +28,11 @@ public class GraphicStateEnemy : MonoBehaviour, IGraphicState
         Debug.Log("<color=orange>Enem</color>::Idle");
     }
 
-    public void LoseFeedback()
+    public void LoseFeedback(ScriptableAttack attack)
     {
-        //_sprBody.color = looserColor;
+        //Attack is null
 
         goodFeedback = 0;
-
-        //currentTimeToHideFeedback = _timeToHideFeedback;
 
         //Enemy lose feedback
         Debug.Log("<color=red>Enemy LOSE!</color>");

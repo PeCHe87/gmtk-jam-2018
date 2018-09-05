@@ -13,9 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Punch
   damage: 50
-  preparationBeats: 6
-  recoveryBeats: 5
-  toleranceBeats: 2
+  preparationBeats: 3
+  recoveryBeats: 3
+  toleranceBeats: 0
   action: 2
   clipHit: {fileID: 8300000, guid: b47518dceaf41d743959ff4ed179a009, type: 3}
   clipSwoosh: {fileID: 8300000, guid: c227f13d2338e294ca815906f5c048dd, type: 3}

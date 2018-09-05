@@ -6,7 +6,7 @@ public class EntityController : MonoBehaviour
     #region Events
     public Action<int, AudioClip, int> OnGoodComboStep;
     public Action<ScriptableCombo> OnBadComboStep;
-    public Action OnLose;
+    public Action<ScriptableAttack> OnLose;
     public Action OnWin;
     public Action<ScriptableCombo, int> OnComboComplete;
     public Action<ScriptableAttack> OnReceiveDamage;

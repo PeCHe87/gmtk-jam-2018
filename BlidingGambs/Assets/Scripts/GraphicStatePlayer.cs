@@ -36,65 +36,43 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         _anim.SetTrigger("Idle");
     }
 
-    public void LoseFeedback()
+    public void LoseFeedback(ScriptableAttack attack)
     {
         Debug.Log("Player Action: <b><color=red>DEAD</color></b>");
 
-        /*_sprBad.SetActive(false);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
+        if (attack.action == ActionType.Type.KICK)
+        {
+            Vector3 scale = _anim.transform.localScale;
+            scale.x *= -1;
+            _anim.transform.localScale = scale;
+        }
 
-        _sprBody.color = looserColor;
-
-        goodFeedback = 0;
-
-        currentTimeToHideFeedback = _timeToHideFeedback;*/
-
-        _anim.SetTrigger("Idle");
+        _anim.ResetTrigger("Idle");
         _anim.SetBool("IsDead", true);
     }
 
     public void NegativeFeedback(ScriptableCombo combo)
     {
-        /*_sprBad.SetActive(true);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
-
-        _sprBody.color = Color.white;
-
-        currentTimeToHideFeedback = _timeToHideFeedback;*/
-
         _anim.ResetTrigger("Idle");
         _anim.SetTrigger("ComboMiss");
     }
 
     public void PositiveFeedback(int step, AudioClip clip, int comboType)
     {
-        /*_sprBad.SetActive(false);
-        _sprGoodL.SetActive(goodFeedback % 2 == 0);
-        _sprGoodR.SetActive(goodFeedback % 2 != 0);
-
-        goodFeedback++;
-
-        _sprBody.color = Color.white;
-
-        currentTimeToHideFeedback = _timeToHideFeedback;*/
-
         Debug.Log("Player::PositiveFeedback -- step: " + step);
 
         _anim.ResetTrigger("Idle");
         _anim.SetInteger("ComboStep", step);
-        _anim.SetTrigger("ComboGood");
         _anim.SetInteger("ComboType", comboType);
+        _anim.SetTrigger("ComboGood");
     }
 
     public void WinFeedback()
     {
-        _sprBad.SetActive(false);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
+        Debug.Log("Player Action: <b><color=green>WIN</color></b>");
 
-        _sprBody.color = winnerColor;
+        _anim.ResetTrigger("Idle");
+        _anim.SetTrigger("Win");
     }
 
     public void PerformCombo(ScriptableCombo actionCombo, int step)
@@ -141,10 +119,11 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         entityController.OnGoodComboStep += PositiveFeedback;
         entityController.OnBadComboStep += NegativeFeedback;
         entityController.OnLose += LoseFeedback;
-        entityController.OnWin += WinFeedback;
+        //entityController.OnWin += WinFeedback;
         entityController.OnComboComplete += PerformCombo;
         entityController.OnReceiveDamage += ReceiveDamage;
         entityController.OnIdle += Idle;
+        AnimationEvents.OnEnemyDead += WinFeedback;
     }
 
     private void Start()
@@ -213,10 +192,11 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
         entityController.OnGoodComboStep -= PositiveFeedback;
         entityController.OnBadComboStep -= NegativeFeedback;
         entityController.OnLose -= LoseFeedback;
-        entityController.OnWin -= WinFeedback;
+        //entityController.OnWin -= WinFeedback;
         entityController.OnComboComplete -= PerformCombo;
         entityController.OnReceiveDamage -= ReceiveDamage;
         ((PlayerController)entityController).Health.OnDead -= Dead;
+        AnimationEvents.OnEnemyDead -= WinFeedback;
 
         entityController.OnIdle -= Idle;
     }

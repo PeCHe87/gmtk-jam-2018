@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: Kick
   m_EditorClassIdentifier: 
   name: Kick
-  damage: 50
+  damage: 5
   preparationBeats: 8
   recoveryBeats: 5
   toleranceBeats: 2
   action: 3
   clipHit: {fileID: 8300000, guid: 342d59dd047d45c479f8704214d3a003, type: 3}
   clipSwoosh: {fileID: 8300000, guid: c227f13d2338e294ca815906f5c048dd, type: 3}
-  clipPre: {fileID: 8300000, guid: df39e83b996121c4b8757ed50977e875, type: 3}
+  clipPre: {fileID: 0}
