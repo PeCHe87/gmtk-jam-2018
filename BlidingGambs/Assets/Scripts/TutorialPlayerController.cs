@@ -20,7 +20,8 @@ public class TutorialPlayerController : PlayerController {
 
         if (_dodgeUpCheck.IsActive() && _dodgeDownCheck.IsActive())
         {
-            _buttonContinue.interactable = true;
+            //_buttonContinue.interactable = true;
+            _buttonContinue.gameObject.SetActive(true);
         }
     }
 }

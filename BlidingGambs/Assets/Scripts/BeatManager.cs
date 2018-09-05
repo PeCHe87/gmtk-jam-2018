@@ -28,7 +28,7 @@ public class BeatManager : MonoBehaviour
     private AudioSource audioSource;
     private float currentTime = 0;
 
-    public float DelayBeat { get { return _delayBeat; } }
+    public float DelayBeat { get { return _delayBeat; } }//1 / ((float)bpm / 60); } }
 
     [Tooltip("Time between beats (BPM)")]
     public double bpm = 140.0F;
@@ -54,7 +54,7 @@ public class BeatManager : MonoBehaviour
 
         if (_btnPause != null)
         {
-            _btnPause.SetActive(true);
+            //_btnPause.SetActive(true);
             _btnStart.SetActive(false);
         }
 
@@ -91,12 +91,14 @@ public class BeatManager : MonoBehaviour
 
     private void Start()
     {
-        PauseGame();
+        //PauseGame();
 
         accent = signatureHi;
         double startTick = AudioSettings.dspTime;
         sampleRate = AudioSettings.outputSampleRate;
         nextTick = startTick * sampleRate;
+
+        StartGame();
     }
 
     private void Update()

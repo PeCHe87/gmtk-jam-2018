@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private int _gameTotalTime = 60;
 
     [Header("Floor")]
+    [SerializeField] private SpriteRenderer _sprLights;
     [SerializeField] private SpriteRenderer _sprFloor;
     [SerializeField] private Sprite _sprFloorA;
     [SerializeField] private Sprite _sprFloorB;
+    [SerializeField] private float _timeToRestartGame = 15;
+
 
     protected BeatManager _beatManager;
     private float currentTime = 0;
@@ -22,6 +26,7 @@ public class GameController : MonoBehaviour
     private char currentBeat = ' ';
     private int indexBeat = -1;
     private bool changeFloor = false;
+    private bool showLights = false;
 
     protected void Awake() 
     {
@@ -31,7 +36,11 @@ public class GameController : MonoBehaviour
         BeatManager.OnGameStarted += GameStarted;
         BeatManager.OnGamePaused += GamePaused;
 
-        enemy.OnWin += GameOver;
+        if (enemy)
+            enemy.OnWin += GameOver;
+
+        if (player)
+            player.OnWin += GameOver;
 
         currentTime = _gameTotalTime;
     }
@@ -58,6 +67,8 @@ public class GameController : MonoBehaviour
             }
         }
 
+        _sprLights.enabled = showLights;
+
         if (changeFloor)
             ChangeFloor();
     }
@@ -83,6 +94,8 @@ public class GameController : MonoBehaviour
 
         if (indexBeat % 2 == 0)
             changeFloor = true;
+
+        showLights = (indexBeat % 2 == 0);
     }
 
     protected void GameStarted()
@@ -105,13 +118,27 @@ public class GameController : MonoBehaviour
     private void GameOver()
     {
         gameStarted = false;
+
+        StartCoroutine(RestartGame());
+    }
+
+    private IEnumerator RestartGame()
+    {
+        yield return new WaitForSeconds(_timeToRestartGame);
+
+        SceneManager.LoadScene("Menu");
     }
 
     private void OnDestroy()
     {
         BeatManager.OnGameStarted -= GameStarted;
         BeatManager.OnGamePaused -= GamePaused;
-        enemy.OnWin -= GameOver;
+
+        if (enemy)
+            enemy.OnWin -= GameOver;
+
+        if (player)
+            player.OnWin -= GameOver;
     }
 
     public PlayerController GetPlayer()

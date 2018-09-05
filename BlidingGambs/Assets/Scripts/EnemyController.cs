@@ -117,7 +117,7 @@ public class EnemyController : EntityController
         {
             if (_recoveryBeats > 0)
             {
-                Debug.Log("Recovering from attack: " + _recoveryBeats + " beats left   ----    currenBeat: " + currentBeat);
+                //Debug.Log("Recovering from attack: " + _recoveryBeats + " beats left   ----    currenBeat: " + currentBeat);
 
                 _recoveryBeats--;
 

@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UIBackground
+    uniqueID: 1553118785
+    locked: 0
   - name: GameBackground
     uniqueID: 3145215041
     locked: 0
@@ -52,4 +55,10 @@ TagManager:
     locked: 0
   - name: HUD
     uniqueID: 1307040313
+    locked: 0
+  - name: UIForeground
+    uniqueID: 1205252195
+    locked: 0
+  - name: Splash
+    uniqueID: 1194964065
     locked: 0

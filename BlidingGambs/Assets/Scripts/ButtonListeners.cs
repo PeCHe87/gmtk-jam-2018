@@ -12,6 +12,7 @@ public class ButtonListeners : MonoBehaviour
     void Start()
     {
         _continue.onClick.AddListener(Continue);
+        _continue.gameObject.SetActive(false);
         _link.onClick.AddListener(OpenLink);
     }
 

@@ -24,13 +24,17 @@ public class MusicController : MonoBehaviour
         AnimationEvents.OnStopMainMusic += StopMainMusic;
         AnimationEvents.OnPlaySpinningSound += PlayPlayerSpinning;
         GameController.OnGameTimeComplete += FightTimeout;
+
+        beatManager = GetComponent<BeatManager>();
+
+        beatManager.SetMainSong(_clipMainMusic);
     }
 
     private void Start()
     {
-        beatManager = GetComponent<BeatManager>();
+        //beatManager = GetComponent<BeatManager>();
 
-        beatManager.SetMainSong(_clipMainMusic);
+        //beatManager.SetMainSong(_clipMainMusic);
     }
 
     private void PlayerFall()

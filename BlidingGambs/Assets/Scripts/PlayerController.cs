@@ -32,7 +32,8 @@ public class PlayerController : EntityController
     private float timePerformingComboRemains = 0;
     private float timeToRecoverAfterGetDamage = 0;
     private bool isDead = false;
-    ScriptableAttack lastAttackReceived;
+    private ScriptableAttack lastAttackReceived;
+    private bool win = false;
 
     public HealthController Health { get { return healthController; } }
 
@@ -106,6 +107,9 @@ public class PlayerController : EntityController
 
     private void Update()
     {
+        if (win)
+            return;
+
         if (isDead)
             return;
 
@@ -120,6 +124,8 @@ public class PlayerController : EntityController
                 isAbleToPerformActions = true;
 
                 Debug.Log("<color=green>Player</color> recovers after damaging");
+
+                OnIdle();
             }
 
             return;
@@ -252,7 +258,16 @@ public class PlayerController : EntityController
 
     private IEnumerator CheckNewBeat()
     {
-        yield return new WaitForSeconds(delayBeat/1000);
+        //yield return new WaitForSeconds(delayBeat);
+        float current = 0;
+        //Debug.Log("<color=blue>check new beat</color>");
+        while (current < delayBeat/1000)
+        {
+            current += Time.deltaTime;
+            //Debug.Log(current);
+            yield return null;
+        }
+        //Debug.Log("<color=orange>check new beat <b>END</b></color>");
 
         if (_canDebug && comboStarted)
             Debug.Log("beat: " + currentBeat);
@@ -342,12 +357,16 @@ public class PlayerController : EntityController
 
     private void Win()
     {
+        win = true;
+
         delayActive = false;
 
         isAbleToPerformActions = false;
 
         //Update graphic state with idle animation because it doesn't have anything more to do until enemy falls
         OnIdle();
+
+        OnWin();
     }
 
     private IEnumerator Idle()

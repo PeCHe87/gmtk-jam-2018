@@ -872,8 +872,8 @@ MonoBehaviour:
   _beatManager: {fileID: 0}
   _timeDelayBeforeComboComplete: 0
   _delayToBackIdle: 0.5
-  _timePerformingCombo: 5
-  _timeToRecoverAfterDamaging: 3
+  _timePerformingCombo: 4
+  _timeToRecoverAfterDamaging: 2
 --- !u!114 &114422769714668040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
-  _health: 90
+  _health: 100
 --- !u!114 &114731461738185610
 MonoBehaviour:
   m_ObjectHideFlags: 1

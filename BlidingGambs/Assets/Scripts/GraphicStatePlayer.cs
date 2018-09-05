@@ -33,7 +33,8 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
         _sprBody.color = Color.white;*/
 
-        _anim.SetTrigger("Idle");
+        //_anim.SetTrigger("Idle");
+        _anim.Play("Player-idle");
     }
 
     public void LoseFeedback(ScriptableAttack attack)
@@ -59,7 +60,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
     public void PositiveFeedback(int step, AudioClip clip, int comboType)
     {
-        Debug.Log("Player::PositiveFeedback -- step: " + step);
+        Debug.Log("<color=magenta>Player::PositiveFeedback</color> -- step: " + step + ", combo type: " + comboType);
 
         _anim.ResetTrigger("Idle");
         _anim.SetInteger("ComboStep", step);
@@ -77,24 +78,7 @@ public class GraphicStatePlayer : MonoBehaviour, IGraphicState
 
     public void PerformCombo(ScriptableCombo actionCombo, int step)
     {
-        _sprBad.SetActive(false);
-        _sprGoodL.SetActive(false);
-        _sprGoodR.SetActive(false);
-
-        _sprBody.color = comboColor;
-
-        currentTimeToHideFeedback = ((PlayerController)entityController).TimePerformingCombo;   //_timeToHideComboFeedback;
-
-        /*switch (actionCombo.keyAction)
-        {
-            case ActionType.Type.DODGE_DOWN:
-                DodgeDown();
-                break;
-
-            case ActionType.Type.DODGE_UP:
-                DodgeUp();
-                break;
-        }*/
+        currentTimeToHideFeedback = ((PlayerController)entityController).TimePerformingCombo;
 
         Debug.Log("Player::ComboComplete -- step: " + step);
 

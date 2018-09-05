@@ -18,6 +18,12 @@ public class UIController : MonoBehaviour
     private EnemyController enemy;
     private bool gameStarted = false;
 
+    private void Awake()
+    {
+        BeatManager.OnGameStarted += GameStarted;
+        BeatManager.OnGamePaused += GamePaused;
+    }
+
     private void Start()
     {
         _panelGameOver.SetActive(false);
@@ -36,8 +42,8 @@ public class UIController : MonoBehaviour
 
         InitEnemyHealth();
 
-        BeatManager.OnGameStarted += GameStarted;
-        BeatManager.OnGamePaused += GamePaused;
+        //BeatManager.OnGameStarted += GameStarted;
+        //BeatManager.OnGamePaused += GamePaused;
 
         AnimationEvents.OnEnemyDead += ShowGameWin;
     }
@@ -51,7 +57,7 @@ public class UIController : MonoBehaviour
     private void UpdateTime()
     {
         float currentTime = _gameController.GetCurrentTime();
-        float segs = currentTime % 60;
+        float segs = Mathf.FloorToInt(currentTime) % 60;
         int mins = Mathf.FloorToInt(currentTime / 60);
 
         _txtTimer.text = string.Format("{0:00}:{1:00}", mins, segs);
